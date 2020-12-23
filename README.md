@@ -5,3 +5,5 @@ Reimplementación de los contenedores de la STL de C++, basado específicamente 
 
 * Array
 * Vector
+
+**Compilado y ejecutado en Windows. Incluye un Makefile en caso de que se quiera probar en Linux.**
