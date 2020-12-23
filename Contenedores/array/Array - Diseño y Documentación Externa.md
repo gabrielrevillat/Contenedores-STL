@@ -1,6 +1,6 @@
 # Array - Diseño y documentación externa
 
-El *Array* es un contenedor de tamaño fijo que almacena una secuencia de elementos.
+El *array* es un contenedor de tamaño fijo que almacena una secuencia de elementos.
 
 ## Propiedades del contenedor
 
