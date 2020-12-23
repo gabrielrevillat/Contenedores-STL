@@ -5,5 +5,3 @@ Reimplementación de los contenedores de la STL de C++, basado específicamente 
 
 * Array
 * Vector
-
-## Descripciones, etc...
