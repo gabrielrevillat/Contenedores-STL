@@ -2,6 +2,8 @@
 
 int testArray()
 {
+    // Puede hacer falta agregar más casos de prueba.
+
     // Prueba de iteradores.
     mySTL::array<int, 5> my_array = { 2, 16, 77, 34, 50 };
     

@@ -99,7 +99,7 @@ namespace mySTL
         /**
          * Retorna una referencia al elemento en la posición @a index del contenedor.
          *
-         * @param index Posición de un elemento en este objeto.
+         * @param index Posición de un elemento en el contenedor.
          * @return El elemento en la posición especificada.
          */
         inline reference operator[](size_type index) { return *(elements + index); }
@@ -107,7 +107,7 @@ namespace mySTL
         /**
          * Retorna una referencia al elemento en la posición @a index del contenedor.
          *
-         * @param index Posición de un elemento en este objeto.
+         * @param index Posición de un elemento en el contenedor.
          * @return El elemento en la posición especificada.
          */
         inline const_reference operator[](size_type index) const { return *(elements + index); }
@@ -118,7 +118,7 @@ namespace mySTL
          * Este método verifica si @a index está dentro del límite de elementos válidos
          * en el contenedor. Si no lo está, lanza una excepción.
          *
-         * @param index Posición de un elemento en este objeto.
+         * @param index Posición de un elemento en el contenedor.
          * @throw std::out_of_range
          * @return El elemento en la posición especificada.
          */
@@ -136,7 +136,7 @@ namespace mySTL
          * Este método verifica si @a index está dentro del límite de elementos válidos
          * en el contenedor. Si no lo está, lanza una excepción.
          *
-         * @param index Posición de un elemento en este objeto.
+         * @param index Posición de un elemento en el contenedor.
          * @throw std::out_of_range
          * @return El elemento en la posición especificada.
          */

@@ -1,8 +1,10 @@
 #include "array/TestArray.h"
+#include "vector/TestVector.h"
 
 int main()
 {
-    testArray();
+    // testArray();
+    testVector();
 
     return 0;
 }
