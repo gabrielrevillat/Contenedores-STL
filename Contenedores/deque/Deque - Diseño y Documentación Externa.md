@@ -6,7 +6,7 @@ contraerse en ambos finales (ya sea adelante o atrás).
 
 (Se pronuncia como *"deck"* en inglés, o sea que en español sería *"dec"* y no "*diquiú*").
 
-![Abueno nosabia peroya C](https://user-images.githubusercontent.com/64336377/105107696-3ebec180-5a7e-11eb-9ae4-cba5022cfc81.jpg "Keanu Reeves chiquitillo")
+![Abueno nosabia peroya C](https://user-images.githubusercontent.com/64336377/105109974-3d43c800-5a83-11eb-8477-60c664b000e9.jpg "Keanu Reeves chiquitillo")
 Mi reacción al enterarme de lo que es un contenedor *deque*.
 
 ## Descripción general (The *embolia* starts now)
