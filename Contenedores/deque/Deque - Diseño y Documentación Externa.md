@@ -39,9 +39,9 @@ el *deque* actúa peor y posee iteradores y referencias menos consistentes que *l
 * **Secuencia**: Los elementos en contenedores secuenciales son ordenados en una secuencia estrictamente lineal. Los elementos individuales se acceden según su posición en esta secuencia.
 * **Arreglo dinámico**: Implementado generalmente como un arreglo dinámico, permite el acceso directo a cualquier elemento en la secuencia y proporciona relativamente rápida agregación y eliminación de elementos al inicio o al final de la secuencia.
 
-## Idea de implementación
+## Introducción - Idea de implementación
 
-### Tamaño de los fragmentos de memoria.
+### Tamaño de los fragmentos de memoria
 
 Tenemos que los elementos del *deque* estarán dispersados en diferentes fragmentos de memoria. Estos fragmentos son
 de tamaño fijo, por lo tanto hay que pensar en qué tamaño tendrán. En la implementación de `libstdc++` se puede observar
@@ -49,7 +49,7 @@ que para calcular el *número de elementos* que tendrá un fragmento o nodo, se ut
 entre el *tamaño en bytes* del tipo de los elementos del *deque*. Si el tamaño en bytes del tipo de elementos es mayor a 512,
 cada fragmento/nodo tendrá capacidad para solo un elemento.
 
-### Iteradores y acceso a los fragmentos de memoria.
+### Iteradores y acceso a los fragmentos de memoria
 
 El contenedor debe ser capaz de proporcionar el acceso a cualquiera de sus elementos en tiempo constante y mediante iteradores.
 Se debe entonces implementar un iterador especial que conecte los fragmentos de memoria y permita ese acceso correctamente.
@@ -77,6 +77,121 @@ su puntero `current` apunta directamente al elemento siguiente al último de ese 
 ![Representación de los dos iteradores que va a tener internamente el *deque*.](https://user-images.githubusercontent.com/64336377/105269247-2b345900-5b59-11eb-8931-374882561b61.png "Atributos privados del deque")
 Representación de los dos iteradores que va a tener internamente el contenedor y los elementos a los que apuntan los atributos de cada iterador (ft. despiche de flechas xd).
 
+Agregar más ideas a este apartado.
 
+## Documentación del `deque::iterator`
+
+Antes de empezar a documentar e implementar el *deque*, es necesario diseñar correctamente un `struct` que sirva 
+para el manejo de los elementos en los fragmentos de memoria.
+
+### Tipos miembro
+
+| Tipo miembro | Definición |
+| -------- | -------- |
+| `value_type`		| Primer parámetro de plantilla de `deque`	|
+| `size_type`		| `std::size_t`								|
+| `difference_type` | `std::ptrdiff_t`							|
+| `reference`		| `value_type&`								|
+| `pointer`			| `value_type*`								|
+| `map_pointer`		| `value_type**`							|
+| `iterator`		| `my_deque_iterator<value_type>`			|
+| `self`			| `my_deque_iterator`						|
+
+### Atributos
+
+* *current*: Puntero a un elemento específico en el fragmento de memoria actual.
+* *first*: Puntero al primer elemento del fragmento de memoria actual.
+* *last*: Puntero al elemento siguiente al último del fragmento de memoria actual.
+* *node*: Puntero al puntero del contenedor que apunta al fragmento de memoria.
+
+### Funciones 
+
+1. #### set_node
+
+Asigna los punteros *node*, *first* y *last* del iterador de manera que apunten correctamente
+a *new_node*. El puntero *current* debe ser asignado justo después por la función que invoca a
+esta función, basándose en los punteros *first* y *last*.
+
+* **Parámetros**:
+	* *new_node*: Puntero a un nodo del contenedor que apunta a un fragmento de memoria específico.
+* **Retorna**: Nada.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+void set_node(map_pointer new_node) noexcept;
+```
+
+2. #### buffer_size
+
+Retorna la cantidad de elementos que puede almacenar un fragmento de memoria según el tamaño
+en bytes de *value_type*.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: El número de elementos que almacena cada fragmentos de memoria.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+static size_type buffer_size() noexcept;
+```
+
+3. #### operator*
+
+Retorna el contenido al que apunta *current*.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: `*current`.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+reference operator*() const noexcept;
+```
+
+4. #### operator->
+
+Retorna el puntero *current*.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: `current`.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+pointer operator->() const noexcept;
+```
+
+5. #### operator++ (prefix)
+
+Incrementa el puntero *current* para que apunte al elemento siguiente del fragmento
+de almacenamiento. Si *current* alcanza el final del fragmento, el iterador
+debe apuntar al siguiente fragmento de memoria y *current* apunta al inicio
+de ese fragmento.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: `*this`
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+self& operator++() noexcept;
+```
+
+6. #### operator++ (postfix)
+
+Incrementa el iterador de manera postfija, para esto utiliza la versión prefija de `operator++`.
+
+* **Parámetros**: Argumento de tipo `int` que distingue la sobrecarga del operador en su versión posfija.
+* **Retorna**: `*this`
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+self operator++(int) noexcept;
+```
+
+![Ejemplo del `operator++` que salta entre los fragmentos.](https://user-images.githubusercontent.com/64336377/105432062-7c595100-5c1c-11eb-986f-c93bbe799c62.png "Operador de incremento que salta entre los fragmentos de memoria")
+Representación de cómo el operador de incremento hace un salto entre los fragmentos de memoria.
 
 
