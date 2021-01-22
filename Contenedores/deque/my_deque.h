@@ -131,8 +131,8 @@ namespace mySTL
 		}
 
 		/**
-		* Operador de disminución postfijo.
-		*/
+		 * Operador de disminución postfijo.
+		 */
 		self operator--(int) noexcept
 		{
 			// Guardar el estado actual del iterador.
@@ -195,16 +195,16 @@ namespace mySTL
 		}
 
 		/**
-		* Operador de resta-asignación.
-		*/
+		 * Operador de resta-asignación.
+		 */
 		self& operator-=(difference_type count) noexcept
 		{
 			return (*this += -count);
 		}
 
 		/**
-		* Operador de resta.
-		*/
+		 * Operador de resta.
+		 */
 		self operator-(difference_type count) const noexcept
 		{
 			self temp = *this;
