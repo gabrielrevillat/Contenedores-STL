@@ -108,9 +108,9 @@ para el manejo de los elementos en los fragmentos de memoria.
 
 1. #### set_node
 
-Asigna los punteros *node*, *first* y *last* del iterador de manera que apunten correctamente
-a *new_node*. El puntero *current* debe ser asignado justo después por la función que invoca a
-esta función, basándose en los punteros *first* y *last*.
+Asigna los punteros `node`, `first` y `last` del iterador de manera que apunten correctamente
+a *new_node*. El puntero `current` debe ser asignado justo después por la función que invoca a
+esta función, basándose en los punteros `first` y `last`.
 
 * **Parámetros**:
 	* *new_node*: Puntero a un nodo del contenedor que apunta a un fragmento de memoria específico.
@@ -125,7 +125,7 @@ void set_node(map_pointer new_node) noexcept;
 2. #### buffer_size
 
 Retorna la cantidad de elementos que puede almacenar un fragmento de memoria según el tamaño
-en bytes de *value_type*.
+en bytes de `value_type`.
 
 * **Parámetros**: Ninguno.
 * **Retorna**: El número de elementos que almacena cada fragmentos de memoria.
@@ -138,7 +138,7 @@ static size_type buffer_size() noexcept;
 
 3. #### operator*
 
-Retorna el contenido al que apunta *current*.
+Retorna el contenido al que apunta `current`.
 
 * **Parámetros**: Ninguno.
 * **Retorna**: `*current`.
@@ -151,7 +151,7 @@ reference operator*() const noexcept;
 
 4. #### operator->
 
-Retorna el puntero *current*.
+Retorna el puntero `current`.
 
 * **Parámetros**: Ninguno.
 * **Retorna**: `current`.
@@ -164,9 +164,9 @@ pointer operator->() const noexcept;
 
 5. #### operator++ (prefix)
 
-Incrementa el puntero *current* para que apunte al elemento siguiente del fragmento
-de almacenamiento. Si *current* alcanza el final del fragmento, el iterador
-debe apuntar al siguiente fragmento de memoria y *current* apunta al inicio
+Incrementa el puntero `current` para que apunte al elemento siguiente del fragmento
+de almacenamiento. Si `current` alcanza el final del fragmento, el iterador
+debe apuntar al siguiente fragmento de memoria y `current` apunta al inicio
 de ese fragmento.
 
 * **Parámetros**: Ninguno.
@@ -180,10 +180,10 @@ self& operator++() noexcept;
 
 6. #### operator++ (postfix)
 
-Incrementa el iterador de manera postfija, para esto utiliza la versión prefija de `operator++`.
+Incrementa el iterador de manera postfija. Para esto utiliza la versión prefija de `operator++`.
 
-* **Parámetros**: Argumento de tipo `int` que distingue la sobrecarga del operador en su versión posfija.
-* **Retorna**: `*this`
+* **Parámetros**: Argumento de tipo `int` que distingue la sobrecarga del operador en su versión postfija.
+* **Retorna**: `*this` antes de ser incrementado.
 * **Complejidad**: Constante.
 * **Declaración**:
 
@@ -194,4 +194,130 @@ self operator++(int) noexcept;
 ![Ejemplo del `operator++` que salta entre los fragmentos.](https://user-images.githubusercontent.com/64336377/105432062-7c595100-5c1c-11eb-986f-c93bbe799c62.png "Operador de incremento que salta entre los fragmentos de memoria")
 Representación de cómo el operador de incremento hace un salto entre los fragmentos de memoria.
 
+7. #### operator-- (prefix)
 
+Decrementa el puntero `current` para que apunte al elemento anterior del fragmento
+de almacenamiento. Si `current` alcanza el inicio del fragmento, el iterador
+debe apuntar al fragmento anterior de memoria y `current` apunta al último elemento
+de ese fragmento.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: `*this`
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+self& operator--() noexcept;
+```
+
+8. #### operator-- (postfix)
+
+Decrementa el iterador de manera postfija. Para esto utiliza la versión prefija de `operator--`.
+
+* **Parámetros**: Argumento de tipo `int` que distingue la sobrecarga del operador en su versión postfija.
+* **Retorna**: `*this` antes de ser decrementado.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+self operator--(int) noexcept;
+```
+
+9. #### operator+=
+
+Desplaza *count* veces el puntero `current`. Si la nueva posición del puntero se encuentra
+fuera de los límites del fragmento de memoria, `node` debe desplazarse hacia el fragmento correspondiente
+anterior o siguiente según el caso, y `current` debe apuntar al elemento correspondiente de ese fragmento.
+
+* **Parámetros**:
+	* *count*: El número de espacios de desplazamiento.
+* **Retorna**: `*this`
+* **Complejidad**: Constante.
+* **Pseudocódigo**:
+
+```
+FUNCTION operator+=(count)
+	new_position <- count + (current - first)
+
+	IF new_position >= 0 AND new_position < buffer_size() THEN
+		current <- current + count
+	ELSE
+		IF new_position > 0 THEN
+			node_offset <- new_position / buffer_size()
+		ELSE
+			node_offset <- -( (-offset - 1) / buffer_size() ) - 1
+		END-IF
+
+		CALL set_node(node + node_offset)
+		current <- first + (new_position - node_offset * buffer_size())
+	END-IF
+
+	RETURN *this
+END operator+=
+```
+
+* **Declaración**:
+
+```C++
+self& operator+=(difference_type count) noexcept;
+```
+
+10. #### operator+
+
+Retorna un iterador que apunta a la posición (`current` + *count*). Utiliza la sobrecarga de `operator+=`.
+
+* **Parámetros**:
+	* *count*: El número de espacios de desplazamiento.
+* **Retorna**: `*this` + *count*.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+self operator+(difference_type count) noexcept;
+```
+
+11. #### operator-=
+
+Desplaza *count* veces el puntero `current`. Utiliza la sobrecarga de `operator+=`.
+
+* **Parámetros**:
+	* *count*: El número de espacios de desplazamiento.
+* **Retorna**: `*this`
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+self& operator-=(difference_type count) noexcept;
+```
+
+12. #### operator-
+
+Retorna un iterador que apunta a la posición (`current` - *count*). Utiliza la sobrecarga de `operator+=`.
+
+* **Parámetros**:
+	* *count*: El número de espacios de desplazamiento.
+* **Retorna**: `*this` - *count*.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+self operator-(difference_type count) noexcept;
+```
+
+13. #### operator[]
+
+Retorna el elemento al que apunta la posición (`current` + *position*). Utiliza la sobrecarga de `operator+`.
+
+* **Parámetros**:
+	* *position*: La posición del elemento que se quiere retornar, relativa a `current`.
+* **Retorna**: *(`*this` + *position*).
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+reference operator[](difference_type count) noexcept;
+```
+
+### Operadores relacionales
+
+Se sobrecargan todos los operadores relacionales según el puntero `current`.
