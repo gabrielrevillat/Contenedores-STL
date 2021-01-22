@@ -315,7 +315,7 @@ Retorna el elemento al que apunta la posición (`current` + *position*). Utiliza 
 * **Declaración**:
 
 ```C++
-reference operator[](difference_type count) noexcept;
+reference operator[](difference_type position) noexcept;
 ```
 
 ### Operadores relacionales
