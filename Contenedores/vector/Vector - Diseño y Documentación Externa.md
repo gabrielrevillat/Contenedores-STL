@@ -888,7 +888,7 @@ Las otras operaciones utilizan los operadores sobrecargados **==** y **<**. Se c
 * **Declaración**:
 
 ```C++
-template <typename ValueType
+template <typename ValueType>
     bool operator==(const vector<ValueType>& lhs, const vector<ValueType>& rhs);
 template <typename ValueType>
     bool operator!=(const vector<ValueType>& lhs, const vector<ValueType>& rhs);
