@@ -240,6 +240,57 @@ namespace mySTL
 		}
 
 	};
+
+	// Sobrecarga de operadores para deque::iterator
+
+	template <typename ValueType>
+	inline bool operator==(const my_deque_iterator<ValueType>& iterator1,
+		const my_deque_iterator<ValueType>& iterator2) noexcept
+	{
+		// Si ambos apuntan al mismo elemento.
+		return (iterator1.current == iterator2.current);
+	}
+
+	template <typename ValueType>
+	inline bool operator!=(const my_deque_iterator<ValueType>& iterator1,
+		const my_deque_iterator<ValueType>& iterator2) noexcept
+	{
+		return !(iterator1 == iterator2);
+	}
+
+	template <typename ValueType>
+	inline bool operator<(const my_deque_iterator<ValueType>& iterator1,
+		const my_deque_iterator<ValueType>& iterator2) noexcept
+	{
+		// Si ambos apuntan al mismo nodo
+		return (iterator1.node == iterator2.node)
+			// Verificar cuál de los dos apunta a un elemento en alguna posición anterior.
+			? (iterator1.current < iterator2.current)
+			// De lo contrario, verificar cuál de los dos apunta a un nodo anterior.
+			: (iterator1.node < iterator2.node);
+		
+	}
+
+	template <typename ValueType>
+	inline bool operator<=(const my_deque_iterator<ValueType>& iterator1,
+		const my_deque_iterator<ValueType>& iterator2) noexcept
+	{
+		return !(iterator2 < iterator1);
+	}
+
+	template <typename ValueType>
+	inline bool operator>(const my_deque_iterator<ValueType>& iterator1,
+		const my_deque_iterator<ValueType>& iterator2) noexcept
+	{
+		return (iterator2 < iterator1);
+	}
+
+	template <typename ValueType>
+	inline bool operator>=(const my_deque_iterator<ValueType>& iterator1,
+		const my_deque_iterator<ValueType>& iterator2) noexcept
+	{
+		return !(iterator1 < iterator2);
+	}
 }
 
 #endif /* MY_DEQUE_H */
