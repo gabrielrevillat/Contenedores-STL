@@ -77,7 +77,8 @@ su puntero `current` apunta directamente al elemento siguiente al último de ese 
 ![Representación de los dos iteradores que va a tener internamente el *deque*.](https://user-images.githubusercontent.com/64336377/105269247-2b345900-5b59-11eb-8931-374882561b61.png "Atributos privados del deque")
 Representación de los dos iteradores que va a tener internamente el contenedor y los elementos a los que apuntan los atributos de cada iterador (ft. despiche de flechas xd).
 
-Agregar más ideas a este apartado.
+La mayoría de métodos serán basados en una versión antigua de la implementación oficial del contenedor de `std`.
+Cuando esos métodos sean analizados y entendidos correctamente, se agregará un diseño más detallado a este apartado.
 
 ## Documentación del `deque::iterator`
 
