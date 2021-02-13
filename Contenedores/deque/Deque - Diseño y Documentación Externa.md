@@ -322,3 +322,23 @@ reference operator[](difference_type position) noexcept;
 ### Operadores relacionales
 
 Se sobrecargan todos los operadores relacionales según el puntero `current`.
+
+## Parámetros de plantilla
+
+* **ValueType**: El tipo de los elementos contenidos. Identificado como el tipo miembro `deque::value_type`.
+
+## Tipos miembro
+
+| Tipo miembro				| Definición								|
+| -----------------------	| ----------------------------------------- |
+| `value_type`				| Primer parámetro de plantilla				|
+| `size_type`				| `std::size_t`								|
+| `difference_type`			| `std::ptrdiff_t`							|
+| `reference`				| `value_type&`								|
+| `const_reference`			| `const value_type&`						|
+| `pointer`					| `value_type*`								|
+| `const_pointer`			| `const value_type*`						|
+| `iterator`				| `my_deque_iterator<value_type>`			|
+| `const_iterator`			| `const my_deque_iterator<value_type>`		|
+| `reverse_iterator`		| `std::reverse_iterator<iterator>`			|
+| `const_reverse_iterator`	| `std::reverse_iterator<const_iterator>`	|
