@@ -327,7 +327,7 @@ Se sobrecargan todos los operadores relacionales según el puntero `current`.
 
 * **ValueType**: El tipo de los elementos contenidos. Identificado como el tipo miembro `deque::value_type`.
 
-## Tipos miembro
+## Tipos miembro públicos
 
 | Tipo miembro				| Definición								|
 | -----------------------	| ----------------------------------------- |
@@ -342,3 +342,16 @@ Se sobrecargan todos los operadores relacionales según el puntero `current`.
 | `const_iterator`			| `const my_deque_iterator<value_type>`		|
 | `reverse_iterator`		| `std::reverse_iterator<iterator>`			|
 | `const_reverse_iterator`	| `std::reverse_iterator<const_iterator>`	|
+
+## Tipos miembro protegidos
+
+| Tipo miembro		| Definición							|
+| ----------------- | ------------------------------------- |
+| `map_pointer`		| `pointer*`							|
+
+## Atributos privados
+
+* *map*: Arreglo de punteros a fragmentos de memoria que almacenan elementos.
+* *map_size*: El número de punteros a los que apunta *map*. Esta cantidad es de al menos 8.
+* *start*: Iterador que apunta al primer elemento del contenedor.
+* *finish*: Iterador que apunta al elemento siguiente al último del contenedor.
