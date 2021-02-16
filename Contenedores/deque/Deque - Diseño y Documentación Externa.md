@@ -45,20 +45,21 @@ el *deque* actúa peor y posee iteradores y referencias menos consistentes que *l
 
 Tenemos que los elementos del *deque* estarán dispersados en diferentes fragmentos de memoria. Estos fragmentos son
 de tamaño fijo, por lo tanto hay que pensar en qué tamaño tendrán. En la implementación de `libstdc++` se puede observar
-que para calcular el *número de elementos* que tendrá un fragmento o nodo, se utiliza un número fijo de 512 y se divide
+que para calcular el *número de elementos* que tendrá un fragmento, se utiliza un número fijo de 512 y se divide
 entre el *tamaño en bytes* del tipo de los elementos del *deque*. Si el tamaño en bytes del tipo de elementos es mayor a 512,
-cada fragmento/nodo tendrá capacidad para solo un elemento.
+cada fragmento tendrá capacidad para solo un elemento.
 
 ### Iteradores y acceso a los fragmentos de memoria
 
 El contenedor debe ser capaz de proporcionar el acceso a cualquiera de sus elementos en tiempo constante y mediante iteradores.
 Se debe entonces implementar un iterador especial que conecte los fragmentos de memoria y permita ese acceso correctamente.
-El contenedor principal será un puntero a punteros, cada puntero apuntará a un fragmento de memoria y los iteradores serán
-capaces de "saltar" entre esos fragmentos para tener acceso a todos los elementos.
+El contenedor principal tendrá un arreglo de punteros, cada puntero apuntará a un fragmento de memoria y los iteradores serán
+capaces de "saltar" entre esos fragmentos para tener acceso a todos los elementos. Los punteros a fragmentos de memoria
+son llamados **nodos**.
 
 Cada iterador va a contener tres punteros: Uno apuntará a un elemento específico en un fragmento de memoria (el elemento al
 que se está apuntando actualmente), y los otros apuntarán al inicio y al final del fragmento. También tendrá un puntero a punteros
-que apunte al puntero del contenedor que apunta directamente a un fragmento de memoria específico.
+que apunte al nodo que apunta directamente a un fragmento de memoria específico.
 
 ![Ejemplo de diseño del iterador para el *deque* y los atributos que contiene.](https://user-images.githubusercontent.com/64336377/105266781-ec050880-5b56-11eb-8127-3225299d80f1.png "Diseño del deque_iterator")
 Diseño que muestra cómo sería un iterador del contenedor *deque* y hacia dónde apuntarían sus atributos.
@@ -103,7 +104,7 @@ para el manejo de los elementos en los fragmentos de memoria.
 * *current*: Puntero a un elemento específico en el fragmento de memoria actual.
 * *first*: Puntero al primer elemento del fragmento de memoria actual.
 * *last*: Puntero al elemento siguiente al último del fragmento de memoria actual.
-* *node*: Puntero al puntero del contenedor que apunta al fragmento de memoria.
+* *node*: Puntero al nodo del arreglo que apunta al fragmento de memoria.
 
 ### Funciones 
 
@@ -329,19 +330,19 @@ Se sobrecargan todos los operadores relacionales según el puntero `current`.
 
 ## Tipos miembro públicos
 
-| Tipo miembro				| Definición								|
-| -----------------------	| ----------------------------------------- |
-| `value_type`				| Primer parámetro de plantilla				|
-| `size_type`				| `std::size_t`								|
-| `difference_type`			| `std::ptrdiff_t`							|
-| `reference`				| `value_type&`								|
-| `const_reference`			| `const value_type&`						|
-| `pointer`					| `value_type*`								|
-| `const_pointer`			| `const value_type*`						|
-| `iterator`				| `my_deque_iterator<value_type>`			|
-| `const_iterator`			| `const my_deque_iterator<value_type>`		|
-| `reverse_iterator`		| `std::reverse_iterator<iterator>`			|
-| `const_reverse_iterator`	| `std::reverse_iterator<const_iterator>`	|
+| Tipo miembro				| Definición										|
+| -----------------------	| ------------------------------------------------- |
+| `value_type`				| Primer parámetro de plantilla						|
+| `size_type`				| `std::size_t`										|
+| `difference_type`			| `std::ptrdiff_t`									|
+| `reference`				| `value_type&`										|
+| `const_reference`			| `const value_type&`								|
+| `pointer`					| `value_type*`										|
+| `const_pointer`			| `const value_type*`								|
+| `iterator`				| `mySTL::my_deque_iterator<value_type>`			|
+| `const_iterator`			| `const mySTL::my_deque_iterator<value_type>`		|
+| `reverse_iterator`		| `std::reverse_iterator<iterator>`					|
+| `const_reverse_iterator`	| `std::reverse_iterator<const_iterator>`			|
 
 ## Tipos miembro privados
 
@@ -352,6 +353,48 @@ Se sobrecargan todos los operadores relacionales según el puntero `current`.
 ## Atributos privados
 
 * *map*: Arreglo de punteros a fragmentos de memoria que almacenan elementos.
-* *map_size*: El número de punteros a los que apunta *map*. Esta cantidad es de al menos 8.
+* *map_size*: El número de nodos a los que apunta *map*. Esta cantidad es de al menos 8.
 * *start*: Iterador que apunta al primer elemento del contenedor.
 * *finish*: Iterador que apunta al elemento siguiente al último del contenedor.
+
+## Métodos privados
+
+### buffer_size
+
+Retorna la cantidad de elementos que puede almacenar un fragmento de memoria según el tamaño
+en bytes de `value_type`.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: El número de elementos que almacena cada fragmentos de memoria.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+static size_type buffer_size() noexcept;
+```
+
+### create_map_and_nodes
+
+Inicializa el arreglo de punteros `map` según la cantidad de elementos
+con la que se está inicializando el *deque* y asigna un fragmento a cada nodo.
+
+El número de nodos necesarios para el contenedor se calcula al dividir el número
+de elementos entre el tamaño de los fragmentos de memoria. Si la división es exacta,
+se le suma un nodo a esta cantidad. De lo contrario, se le aplica "función techo" al
+resultado.
+
+Si el número de nodos necesarios es menor a 8, el tamaño de `map` se inicializa en 8.
+De lo contrario, se inicializa según el número de nodos necesarios + 2, para
+que se reserve un nodo al inicio y otro al final del arreglo, para facilitar la expansión
+del contenedor. Los iteradores `start` y `finish` se asignan de manera que en ambos extremos
+quede sobrando al menos un nodo vacío.
+
+* **Parámetros**:
+	* *elements_count*: El número de elementos que va a contener el contenedor.
+* **Retorna**: Nada.
+* **Complejidad**: Lineal en la cantidad de nodos.
+* **Declaración**:
+
+```C++
+void create_map_and_nodes(size_type elements_count);
+```

@@ -158,6 +158,21 @@ namespace mySTL
 
 		return false; // No es menor.
 	}
+
+	/**
+	 * Retorna el mayor entre @a value1 y @a value2. Si ambos son iguales, 
+	 * retorna @a value1.
+	 * 
+	 * @param value1, value2	Valores por comparar.
+	 * @return El mayor de los valores recibidos.
+	 */
+	template <typename ValueType>
+	inline const ValueType& max(const ValueType& value1, const ValueType& value2)
+	{
+		// Si el primer valor es menor que el segundo, retornar el segundo valor.
+		// De lo contrario, retornar el primer valor.
+		return ( (value1 < value2) ? value2 : value1 );
+	}
 }
 
 #endif /* MY_ALGORITHM_H */

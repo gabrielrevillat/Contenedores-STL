@@ -338,6 +338,33 @@ namespace mySTL
 		iterator start;		// Iterador que apunta al primer elemento del contenedor.
 		iterator finish;	// Iterador que apunta al elemento siguiente al último del contenedor.
 
+	// Métodos públicos
+	public:
+
+	// Métodos privados
+	private:
+
+		/**
+		* Retorna la cantidad de elementos que puede almacenar un fragmento de memoria.
+		* 
+		* @return El número de elementos que almacena cada fragmentos de memoria.
+		*/
+		static size_type buffer_size() noexcept
+		{
+			return my_deque_chunk_size( sizeof(value_type) );
+		}
+
+		/**
+		 * Inicializa el arreglo de punteros según @a elements_count 
+		 * y asigna un fragmento a cada nodo.
+		 * 
+		 * @param elements_count	El número de elementos que va a contener el contenedor.
+		 */
+		void create_map_and_nodes(size_type elements_count)
+		{
+
+		}
+
 	};
 }
 
