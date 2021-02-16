@@ -291,6 +291,54 @@ namespace mySTL
 	{
 		return !(iterator1 < iterator2);
 	}
+
+	/**
+	 * @brief Contenedor secuencial con tamaño dinámico que puede
+	 * expandirse o contraerse en ambos finales.
+	 * 
+	 * @tparam ValueType El tipo de los elementos que contiene.
+	 */
+	template <typename ValueType>
+	class deque
+	{
+	// Tipos miembro públicos
+	public:
+		// Primer parámetro de plantilla.
+		typedef ValueType value_type;
+		// Tipo entero sin signo.
+		typedef std::size_t     size_type;
+		// Tipo entero con signo.
+		typedef std::ptrdiff_t  difference_type;
+		// Referencia.
+		typedef value_type& reference;
+		// Referencia constante.
+		typedef const value_type& const_reference;
+		// Puntero.
+		typedef value_type* pointer;
+		// Puntero constante.
+		typedef const value_type* const_pointer;
+		// Iterador.
+		typedef my_deque_iterator<value_type> iterator;
+		// Iterador constante.
+		typedef const my_deque_iterator<value_type> const_iterator;
+		// Iterador inverso.
+		typedef std::reverse_iterator<iterator> reverse_iterator;
+		// Iterador inverso constante.
+		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+
+	// Tipos miembro privados
+	private:
+		// Puntero a punteros.
+		typedef pointer* map_pointer;
+
+	// Atributos privados
+	private:
+		map_pointer map;	// Arreglo de punteros a fragmentos de memoria que almacenan elementos.
+		size_type map_size;	// El número de punteros a los que apunta *map*. Esta cantidad es de al menos 8.
+		iterator start;		// Iterador que apunta al primer elemento del contenedor.
+		iterator finish;	// Iterador que apunta al elemento siguiente al último del contenedor.
+
+	};
 }
 
 #endif /* MY_DEQUE_H */

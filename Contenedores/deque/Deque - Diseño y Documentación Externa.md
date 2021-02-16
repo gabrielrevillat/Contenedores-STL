@@ -63,7 +63,7 @@ que apunte al puntero del contenedor que apunta directamente a un fragmento de m
 ![Ejemplo de diseño del iterador para el *deque* y los atributos que contiene.](https://user-images.githubusercontent.com/64336377/105266781-ec050880-5b56-11eb-8127-3225299d80f1.png "Diseño del deque_iterator")
 Diseño que muestra cómo sería un iterador del contenedor *deque* y hacia dónde apuntarían sus atributos.
 
-El ejemplo anterior presenta un puntero a punteros llamado *map*, este es el contenedor principal que apunta hacia
+El ejemplo anterior presenta un arreglo de punteros llamado *map*, los punteros de este arreglo apuntan hacia
 los fragmentos de memoria que contienen los elementos. En la imagen, cada puntero está apuntando a un fragmento, aunque
 podría presentarse el caso donde algunos punteros cercanos a los extremos no apunten a ningún fragmento de memoria hasta que
 sea necesario, por la cantidad de elementos. Si cada puntero apunta a un fragmento lleno y se necesita más espacio, se crea
@@ -343,7 +343,7 @@ Se sobrecargan todos los operadores relacionales según el puntero `current`.
 | `reverse_iterator`		| `std::reverse_iterator<iterator>`			|
 | `const_reverse_iterator`	| `std::reverse_iterator<const_iterator>`	|
 
-## Tipos miembro protegidos
+## Tipos miembro privados
 
 | Tipo miembro		| Definición							|
 | ----------------- | ------------------------------------- |
