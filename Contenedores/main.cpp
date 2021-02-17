@@ -1,10 +1,12 @@
 #include "array/TestArray.h"
 #include "vector/TestVector.h"
+#include "deque/TestDeque.h"
 
 int main()
 {
     // testArray();
-    testVector();
+    // testVector();
+    testDeque();
 
     return 0;
 }

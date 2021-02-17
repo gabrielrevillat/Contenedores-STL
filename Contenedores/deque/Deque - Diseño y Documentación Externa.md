@@ -398,3 +398,57 @@ quede sobrando al menos un nodo vacío.
 ```C++
 void create_map_and_nodes(size_type elements_count);
 ```
+
+### destroy_map_and_nodes
+
+Destruye el arreglo de punteros y su contenido.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Nada.
+* **Complejidad**: Lineal en la cantidad de nodos del arreglo.
+* **Declaración**:
+
+```C++
+void destroy_map_and_nodes();
+```
+
+## Métodos públicos
+
+### Constructores
+
+1. #### Constructor por defecto
+
+Construye un contendor vacío, sin elementos.
+
+* **Parámetros**: Ninguno.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+explicit deque();
+```
+
+2. #### Constructor de relleno
+
+Construye el contenedor con *count* elementos. Si se recibe *value* como parámetro, cada elemento es una copia de *value*.
+
+* **Parámetros**:
+    * *count*: El tamaño inicial del contenedor.
+    * *value*: Valor para inicializar los elementos del contenedor.
+* **Complejidad**: Lineal en el tamaño del contenedor.
+* **Declaración**:
+
+```C++
+explicit deque(size_type count);
+deque(size_type count, const value_type& value);
+```
+
+### Destructor
+
+Destruye el objeto contenedor.
+
+* **Declaración**:
+
+```C++
+~deque();
+```

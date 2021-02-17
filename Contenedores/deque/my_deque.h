@@ -3,6 +3,7 @@
 
 #include "../algorithm/my_algorithm.h"
 
+#include <iterator>
 #include <cstddef>
 
 namespace mySTL
@@ -340,6 +341,32 @@ namespace mySTL
 
 	// Métodos públicos
 	public:
+		// Constructores y destructor.
+
+		/**
+		 * Constructor por defecto. 
+		 *
+		 * Construye un contendor vacío, sin elementos.
+		 */
+		explicit deque()
+			: map(nullptr) // Contenedor vacío.
+			, map_size(0)
+			, start()
+			, finish()
+		{
+			// Crear arreglo de nodos sin elementos.
+			this->create_map_and_nodes(0);
+		}
+
+		/**
+		* Destructor.
+		*
+		* Destruye el objeto contenedor.
+		*/
+		~deque()
+		{
+			this->destroy_map_and_nodes();
+		}
 
 	// Métodos privados
 	private:
@@ -390,6 +417,19 @@ namespace mySTL
 			// finish.current debe apuntar al elemento siguiente al último
 			// del último fragmento.
 			this->finish.current = this->finish.first + elements_count % buffer_size();
+		}
+
+		/**
+		 * Destruye el arreglo de punteros y su contenido.
+		 */
+		void destroy_map_and_nodes()
+		{
+			// Destruir cada nodo desde start_node hasta finish_node.
+			for (map_pointer current = this->start.node;
+				current < this->finish.node; ++current)
+				delete [] *current;
+
+			delete [] map;
 		}
 
 	};
