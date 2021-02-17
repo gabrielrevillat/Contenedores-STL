@@ -362,7 +362,34 @@ namespace mySTL
 		 */
 		void create_map_and_nodes(size_type elements_count)
 		{
+			// Calcular el número de nodos necesarios para el contenedor. 
+			// (Número de elementos entre el tamaño de los fragmentos de memoria).
+			size_type nodes_count = elements_count / buffer_size() + 1;
 
+			// Asignar el tamaño del arreglo de nodos.
+			// Si el número de nodos es menor a 8, asignar 8.
+			// De lo contrario, asignar el número de nodos más 2.
+			this->map_size = mySTL::max(size_type(8), nodes_count + 2);
+			// Inicializar el arreglo de punteros con el tamaño calculado.
+			this->map = new pointer[map_size];
+
+			// Asignar punteros a nodos de inicio y final de manera que en 
+			// ambos extremos del contenedor quede al menos un nodo vacío.
+			map_pointer start_node = map + ( (this->map_size - nodes_count) / 2 );
+			map_pointer finish_node = start_node + nodes_count - 1;
+
+			// Inicializar cada nodo desde start_node hasta finish_node.
+			for (map_pointer current = start_node; current < finish_node; ++current)
+				*current = new value_type[ buffer_size() ];
+
+			// Asignar los atributos de los iteradores del contenedor.
+			this->start.set_node(start_node);
+			this->finish.set_node(finish_node);
+			// start.current debe apuntar al primer elemento del primer fragmento.
+			this->start.current = this->start.first;
+			// finish.current debe apuntar al elemento siguiente al último
+			// del último fragmento.
+			this->finish.current = this->finish.first + elements_count % buffer_size();
 		}
 
 	};

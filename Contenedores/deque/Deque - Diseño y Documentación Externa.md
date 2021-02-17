@@ -383,8 +383,8 @@ de elementos entre el tamaño de los fragmentos de memoria. Si la división es exa
 se le suma un nodo a esta cantidad. De lo contrario, se le aplica "función techo" al
 resultado.
 
-Si el número de nodos necesarios es menor a 8, el tamaño de `map` se inicializa en 8.
-De lo contrario, se inicializa según el número de nodos necesarios + 2, para
+Si el número de nodos necesarios es menor a 8, el tamaño de `map` se asigna en 8.
+De lo contrario, se asigna según el número de nodos necesarios + 2, para
 que se reserve un nodo al inicio y otro al final del arreglo, para facilitar la expansión
 del contenedor. Los iteradores `start` y `finish` se asignan de manera que en ambos extremos
 quede sobrando al menos un nodo vacío.
