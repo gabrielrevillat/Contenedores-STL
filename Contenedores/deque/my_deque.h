@@ -161,7 +161,7 @@ namespace mySTL
 			else // De lo contrario
 			{
 				// Crear variable para calcular el desplazamiento del nodo.
-				const difference_type node_offset = 0;
+				difference_type node_offset = 0;
 				// Si la nueva posición es mayor a 0
 				if (new_position > 0)
 				{
@@ -413,14 +413,35 @@ namespace mySTL
 			this->destroy_map_and_nodes();
 		}
 
+		// Operador de asignación.
+
+		// Modificador assign.
+
+		// Iteradores.
+
+		/// Retorna un iterador al prinicipio.
+		inline iterator begin() noexcept { return this->start; } // Retornar el iterador que apunta al inicio del contenedor.
+		/// Retorna un iterador al prinicipio.
+		inline const_iterator begin() const noexcept { return this->start; }
+		/// Retorna un iterador constante al prinicipio.
+		inline const_iterator cbegin() const noexcept { return begin(); }
+
+		/// Retorna un iterador al final.
+		inline iterator end() noexcept { return this->finish; } // Retornar el iterador que apunta al final del contenedor.
+		/// Retorna un iterador al final.
+        inline const_iterator end() const noexcept { return this->finish; }
+		/// Retorna un iterador constante al final.
+		inline const_iterator cend() const noexcept { return end(); }
+
+
 	// Métodos privados
 	private:
 
 		/**
-		* Retorna la cantidad de elementos que puede almacenar un fragmento de memoria.
-		* 
-		* @return El número de elementos que almacena cada fragmentos de memoria.
-		*/
+		 * Retorna la cantidad de elementos que puede almacenar un fragmento de memoria.
+		 * 
+		 * @return El número de elementos que almacena cada fragmentos de memoria.
+		 */
 		static size_type buffer_size() noexcept
 		{
 			return my_deque_chunk_size( sizeof(value_type) );
