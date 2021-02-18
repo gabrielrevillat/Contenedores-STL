@@ -95,6 +95,26 @@ namespace mySTL
 	}
 
 	/**
+	 * Asigna el valor @a value a los elementos en el rango [@a first, @a last).
+	 * 
+	 * @param first	Iterador a la posición inicial de una secuencia de elementos.
+	 * @param last	Iterador a la posición final de una secuencia de elementos.
+	 * @param value	El valor por asignar a los elementos en el rango de relleno.
+	 */
+	template <typename ForwardIterator, typename ValueType>
+	void fill(ForwardIterator first, ForwardIterator last, const ValueType& value)
+	{
+		// Mientras no se haya alcanzado el final del rango
+		while (first != last)
+		{
+			// Asignar el valor value al elemento al que apunta first.
+			*first = value;
+			// Incrementar el iterador first.
+			++first;
+		}
+	}
+
+	/**
 	 * Compara los elementos en el rango [@a first1, @a last1) con los del rango que empieza en @a first2
 	 * y retorna TRUE si todos los elementos en ambos rangos coinciden.
 	 * 

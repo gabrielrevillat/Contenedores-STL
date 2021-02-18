@@ -349,13 +349,58 @@ namespace mySTL
 		 * Construye un contendor vacío, sin elementos.
 		 */
 		explicit deque()
-			: map(nullptr) // Contenedor vacío.
+			: map(nullptr) // Inicializar atributos por defecto.
 			, map_size(0)
 			, start()
 			, finish()
 		{
-			// Crear arreglo de nodos sin elementos.
+			// Inicializar arreglo de nodos sin elementos.
 			this->create_map_and_nodes(0);
+		}
+
+		/**
+		 * Constructor de relleno. 
+		 *
+		 * Construye el contenedor con @a count elementos. No se hacen copias.
+		 *
+		 * @param count El tamaño inicial del contenedor.
+		 */
+		explicit deque(size_type count)
+			: map(nullptr) // Inicializar atributos por defecto.
+			, map_size(0)
+			, start()
+			, finish()
+		{
+			// Inicializar arreglo de nodos con count elementos.
+			this->create_map_and_nodes(count);
+		}
+
+		/**
+		 * Constructor de relleno. 
+		 *
+		 * Construye el contenedor con @a count elementos. Cada elemento es una copia de @a value.
+		 *
+		 * @param count El tamaño inicial del contenedor.
+		 * @param value Valor para inicializar los elementos del contenedor.
+		 */
+		deque(size_type count, const value_type& value)
+			: map(nullptr) // Inicializar atributos por defecto.
+			, map_size(0)
+			, start()
+			, finish()
+		{
+			// Inicializar arreglo de nodos con count elementos.
+			this->create_map_and_nodes(count);
+
+			// Recorrer entre los nodos que apuntan a los fragmentos de memoria
+			for (map_pointer current = this->start.node;
+				current < this->finish.node; ++current)
+				// Llenar el fragmento de memoria actual con el valor value.
+				mySTL::fill(*current, *current + buffer_size(), value);
+
+			// Llenar el último fragmento hasta alcanzar la posición
+			// del último elemento.
+			mySTL::fill(this->finish.first, this->finish.current, value);
 		}
 
 		/**
@@ -405,8 +450,9 @@ namespace mySTL
 			map_pointer start_node = map + ( (this->map_size - nodes_count) / 2 );
 			map_pointer finish_node = start_node + nodes_count - 1;
 
-			// Inicializar cada nodo desde start_node hasta finish_node.
-			for (map_pointer current = start_node; current < finish_node; ++current)
+			// Inicializar cada fragmento de memoria desde
+			// start_node hasta finish_node.
+			for (map_pointer current = start_node; current <= finish_node; ++current)
 				*current = new value_type[ buffer_size() ];
 
 			// Asignar los atributos de los iteradores del contenedor.
@@ -424,15 +470,18 @@ namespace mySTL
 		 */
 		void destroy_map_and_nodes()
 		{
-			// Destruir cada nodo desde start_node hasta finish_node.
+			// Destruir cada fragmento de memoria apuntado
+			// desde start hasta finish.
 			for (map_pointer current = this->start.node;
 				current < this->finish.node; ++current)
 				delete [] *current;
 
-			delete [] map;
+			delete [] map; // Destruir arreglo de nodos.
 		}
 
+
 	};
+
 }
 
 #endif /* MY_DEQUE_H */
