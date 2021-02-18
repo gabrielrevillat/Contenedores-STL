@@ -443,6 +443,22 @@ explicit deque(size_type count);
 deque(size_type count, const value_type& value);
 ```
 
+3. #### Constructor de rango
+
+Construye el contenedor con tantos elementos como el rango [*first*, *last*).
+
+* **Parámetros**:
+    * *first*, *last*: Iteradores a las posiciones inicial y final en un rango.
+* **Complejidad**: Lineal en el tamaño del contenedor.
+* **Declaración**:
+
+```C++
+template <typename InputIterator,
+    typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
+        typename std::iterator_traits<InputIterator>::iterator_category>>>
+    deque(InputIterator first, InputIterator last);
+```
+
 ### Destructor
 
 Destruye el objeto contenedor.

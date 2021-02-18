@@ -23,13 +23,20 @@ int testDeque()
 {
 	std::cout << "Prueba de constructores:\n";
 
-	mySTL::deque<int> deque1; // Constructor por defecto.
-	mySTL::deque<int> deque2(4, 100); // 4 enteros con valor 100.
+	// Constructor por defecto.
+	mySTL::deque<int> deque1;
+	// 4 enteros con valor 100.
+	mySTL::deque<int> deque2(4, 100);
+	// Iterando a través de deque2.
+	mySTL::deque<int> deque3(deque2.begin(), deque2.end());
 
 	std::cout << "deque1: ";
 	print_deque(deque1); // [  ]
 	std::cout << "deque2: ";
 	print_deque(deque2); // [ 100, 100, 100, 100 ]
+	std::cout << "deque3: ";
+	print_deque(deque3); // [ 100, 100, 100, 100 ]
+
 
 	std::cout << '\n';
 

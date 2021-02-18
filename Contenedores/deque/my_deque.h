@@ -5,6 +5,7 @@
 
 #include <iterator>
 #include <cstddef>
+#include <type_traits>
 
 namespace mySTL
 {
@@ -32,6 +33,8 @@ namespace mySTL
 	template <typename ValueType>
 	struct my_deque_iterator
 	{
+		// 
+		typedef std::random_access_iterator_tag iterator_category;
 		// Primer parámetro de plantilla.
 		typedef ValueType value_type;
 		// Tipo entero sin signo.
@@ -293,6 +296,18 @@ namespace mySTL
 		return !(iterator1 < iterator2);
 	}
 
+	template <typename ValueType>
+	inline typename my_deque_iterator<ValueType>::difference_type
+		operator-(const my_deque_iterator<ValueType>& iterator1,
+			const my_deque_iterator<ValueType>& iterator2) noexcept
+	{
+		return typename my_deque_iterator<ValueType>::difference_type
+			(my_deque_iterator<ValueType>::buffer_size())
+			* (iterator1.node - iterator2.node - 1)
+			+ (iterator1.current - iterator1.first)
+			+ (iterator2.last - iterator2.current);
+	}
+
 	/**
 	 * @brief Contenedor secuencial con tamaño dinámico que puede
 	 * expandirse o contraerse en ambos finales.
@@ -401,6 +416,31 @@ namespace mySTL
 			// Llenar el último fragmento hasta alcanzar la posición
 			// del último elemento.
 			mySTL::fill(this->finish.first, this->finish.current, value);
+		}
+
+		/**
+		 * Constructor de rango. 
+         *
+         * Construye el contenedor con tantos elementos como el rango [first, last).
+         *
+         * @param first, last   Iteradores a las posiciones inicial y final en un rango.
+		 */
+		template <typename InputIterator,
+			typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
+				typename std::iterator_traits<InputIterator>::iterator_category>>>
+		deque(InputIterator first, InputIterator last)
+			: map(nullptr)
+			, map_size(0)
+			, start()
+			, finish()
+		{
+			// El número de elementos es la distancia entre los iteradores.
+			size_type count = std::distance(first, last);
+			// Inicializar arreglo de nodos con count elementos.
+			this->create_map_and_nodes(count);
+
+			// Copiar los elementos del rango al contenedor.
+			mySTL::copy(first, last, this->start);
 		}
 
 		/**
