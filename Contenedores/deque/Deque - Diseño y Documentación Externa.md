@@ -88,16 +88,17 @@ para el manejo de los elementos en los fragmentos de memoria.
 
 ### Tipos miembro
 
-| Tipo miembro | Definición |
-| -------- | -------- |
-| `value_type`		| Primer parámetro de plantilla de `deque`	|
-| `size_type`		| `std::size_t`								|
-| `difference_type` | `std::ptrdiff_t`							|
-| `reference`		| `value_type&`								|
-| `pointer`			| `value_type*`								|
-| `map_pointer`		| `value_type**`							|
-| `iterator`		| `my_deque_iterator<value_type>`			|
-| `self`			| `my_deque_iterator`						|
+| Tipo miembro			| Definición								|
+| --------------------- | ----------------------------------------- |
+| `iterator_category`	| `std::random_access_iterator_tag`			|
+| `value_type`			| Primer parámetro de plantilla de `deque`	|
+| `size_type`			| `std::size_t`								|
+| `difference_type`		| `std::ptrdiff_t`							|
+| `reference`			| `value_type&`								|
+| `pointer`				| `value_type*`								|
+| `map_pointer`			| `value_type**`							|
+| `iterator`			| `my_deque_iterator<value_type>`			|
+| `self`				| `my_deque_iterator`						|
 
 ### Atributos
 
@@ -323,6 +324,28 @@ reference operator[](difference_type position) noexcept;
 ### Operadores relacionales
 
 Se sobrecargan todos los operadores relacionales según el puntero `current`.
+
+### Operador de resta
+
+Retorna el número de elementos entre `iterator1` y `iterator2`.
+
+* **Parámetros**:
+	* *iterator1*, *iterator2*: Iteradores del contenedor *deque* a los cuales se les aplica
+	la operación de resta.
+* **Retorna**: El resultado de la resta, la distancia entre ambos iteradores.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+template <typename ValueType>
+inline typename my_deque_iterator<ValueType>::difference_type
+		operator-(const my_deque_iterator<ValueType>& iterator1,
+			const my_deque_iterator<ValueType>& iterator2) noexcept
+```
+
+![Representación y explicación de la resta entre iteradores.](https://user-images.githubusercontent.com/64336377/108461358-32c24d00-7240-11eb-8aa1-3a6c75249670.png "Resta entre iteradores")
+Representación y explicación de cómo se realiza la resta entre iteradores para calcular cuántos
+elementos hay entre cada uno.
 
 ## Parámetros de plantilla
 

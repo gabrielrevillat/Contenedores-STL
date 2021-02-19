@@ -33,7 +33,7 @@ namespace mySTL
 	template <typename ValueType>
 	struct my_deque_iterator
 	{
-		// 
+		// Identifica este struct como un iterador de acceso aleatorio.
 		typedef std::random_access_iterator_tag iterator_category;
 		// Primer parámetro de plantilla.
 		typedef ValueType value_type;
@@ -295,6 +295,10 @@ namespace mySTL
 	{
 		return !(iterator1 < iterator2);
 	}
+
+	// Sobrecarga de operador de resta para calcular
+	// distancia entre dos elementos apuntados por iteradores.
+	// Revisar explicación de la fórmula en la documentación externa.
 
 	template <typename ValueType>
 	inline typename my_deque_iterator<ValueType>::difference_type
