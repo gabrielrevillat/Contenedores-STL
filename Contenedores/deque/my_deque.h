@@ -424,10 +424,10 @@ namespace mySTL
 
 		/**
 		 * Constructor de rango. 
-         *
-         * Construye el contenedor con tantos elementos como el rango [first, last).
-         *
-         * @param first, last   Iteradores a las posiciones inicial y final en un rango.
+		 *
+		 * Construye el contenedor con tantos elementos como el rango [first, last).
+		 *
+		 * @param first, last   Iteradores a las posiciones inicial y final en un rango.
 		 */
 		template <typename InputIterator,
 			typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
@@ -445,6 +445,24 @@ namespace mySTL
 
 			// Copiar los elementos del rango al contenedor.
 			mySTL::copy(first, last, this->start);
+		}
+
+		/**
+		 * Constructor de copia. 
+		 * 
+		 * Construye el contenedor con una copia de cada uno de los elementos de @a other,
+		 * en el mismo orden.
+		 *
+		 * @param other Otro objeto vector del mismo tipo, para inicializar el contenedor.
+		 */
+		deque(const deque& other)
+			: map(nullptr)
+			, map_size(0)
+			, start()
+			, finish()
+		{
+			// Inicializar arreglo de nodos con el número de elementos de other.
+			// Copiar los elementos de other al contenedor.
 		}
 
 		/**

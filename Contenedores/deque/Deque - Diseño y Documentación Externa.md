@@ -482,6 +482,45 @@ template <typename InputIterator,
     deque(InputIterator first, InputIterator last);
 ```
 
+4. #### Constructor de copia
+
+Construye el contenedor con una copia de cada uno de los elementos de *other*, en el mismo orden.
+
+* **Parámetros**:
+    * *other*: Otro objeto *deque* del mismo tipo, para inicializar el contenedor.
+* **Complejidad**: Lineal en el tamaño del contenedor.
+* **Declaración**:
+
+```C++
+deque(const deque& other);
+```
+
+5. #### Constructor de movimiento
+
+Construye un contenedor que adquiere los elementos de *temp*, con semánticas de movimiento.
+
+* **Parámetros**:
+    * *temp*: Otro objeto *deque* del mismo tipo, para inicializar el contenedor.
+* **Complejidad**: Constante.
+* **Declaración**:
+
+```C++
+deque(deque&& temp);
+```
+
+6. #### Constructor con lista de inicialización
+
+Construye el contenedor con una copia de cada uno de los elementos de *init_list*.
+
+* **Parámetros**:
+    * *init_list*: Objeto `std::initializer_list` para inicializar los elementos del contenedor.
+* **Complejidad**: Lineal en el tamaño del contenedor.
+* **Declaración**:
+
+```C++
+deque(std::initializer_list<value_type> init_list);
+```
+
 ### Destructor
 
 Destruye el objeto contenedor.
