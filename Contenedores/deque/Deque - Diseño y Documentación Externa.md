@@ -531,6 +531,54 @@ Destruye el objeto contenedor.
 ~deque();
 ```
 
+### operator=
+
+**Asigna contenido.**
+
+Asigna nuevo contenido al contenedor. Reemplaza su contenido actual y modifica su tamaño.
+
+1. #### Asignación por copia
+
+Reemplaza el contenido del contenedor por una copia del contenido de *other*.
+
+* **Parámetros**:
+    * *other*: Otro objeto *deque* del mismo tipo, para reemplazar el contenido del contenedor.
+* **Retorna**: `*this`
+* **Complejidad**: Lineal según el tamaño del contenedor.
+* **Declaración**:
+
+```C++
+deque& operator=(const deque& other);
+```
+
+2. #### Asignación por movimiento
+
+Reemplaza el contenido del contenedor al mover dentro de este el contenido de *temp*.
+
+* **Parámetros**:
+    * *temp*: Otro objeto *deque* del mismo tipo, para reemplazar el contenido del contenedor.
+* **Retorna**: `*this`
+* **Complejidad**: Lineal según el tamaño del contenedor.
+* **Declaración**:
+
+```C++
+deque& operator=(deque&& temp);
+```
+
+3. #### Asignación por lista de inicialización
+
+Reemplaza el contenido del contenedor por una copia de los elementos de *init_list*.
+
+* **Parámetros**:
+    * *init_list*: Objeto `std::initializer_list` para reemplazar el contenido del contenendor.
+* **Retorna**: `*this`
+* **Complejidad**: Lineal según el tamaño del contenedor.
+* **Declaración**:
+
+```C++
+deque& operator=(std::initializer_list<value_type> init_list);
+```
+
 ### Iteradores
 
 1. #### begin
@@ -626,4 +674,29 @@ Retorna el número de elementos del contenedor.
 
 ```C++
 size_type size() const noexcept;
+```
+
+### Modificadores
+
+7. #### swap
+
+**Intercambia contenido.**
+
+Intercambia el contenido de el objeto *deque* por el de *other*, que es otro objeto *deque* del mismo tipo.
+Los tamaños pueden ser distintos.
+
+Después del llamado a este método, los elementos en el contenedor son los que estaban anteriormente en *other*
+y los elementos en *other* son los que estaban en el contenedor que llama al método.
+
+Este método llama a `std::swap` para intercambiar los atributos privados del *deque*.
+
+* **Parámetros**:
+  * *other*: Otro objeto *deque* del mismo tipo, para intercambiar sus elementos.
+* **Retorna**: Nada.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+void swap(deque& other);
 ```

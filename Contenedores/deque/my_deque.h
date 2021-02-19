@@ -5,6 +5,7 @@
 
 #include <iterator>
 #include <cstddef>
+#include <utility>
 #include <type_traits>
 
 namespace mySTL
@@ -516,6 +517,50 @@ namespace mySTL
 
 		// Operador de asignación.
 
+		/**
+		 * Asignación por copia. 
+		 * 
+		 * Reemplaza el contenido del contenedor por una copia del contenido
+		 * de @a other.
+		 * 
+		 * @param other Otro objeto deque del mismo tipo, para reemplazar
+		 * el contenido del contenedor.
+		 * @return *this.
+		 */
+		deque& operator=(const deque& other)
+		{
+			// Construir una copia temporal del deque recibido.
+			// De esta manera no se modifica el deque recibido al intercambiar los elementos.
+			auto temp_copy = deque(other);
+			// Intercambiar atributos con esa copia creada.
+			this->swap(temp_copy);
+			return *this;
+		}
+
+		/**
+		 * Asignación por movimiento. 
+		 * 
+		 * Reemplaza el contenido del contenedor al mover dentro de este el contenido de @a temp.
+		 * 
+		 * @param temp  Otro objeto deque del mismo tipo, para reemplazar
+		 * el contenido del contenedor.
+		 * @return *this.
+		 */
+		deque& operator=(deque&& temp)
+		{
+			this->swap(temp); // Intercambiar elementos, no importa si temp se modifica.
+			return *this;
+		}
+
+		deque& operator=(std::initializer_list<value_type> init_list)
+		{
+			// Construir un deque con la lista de inicialización recibida.
+			auto temp_il_deque = deque(init_list);
+			// Intercambiar elementos con el deque creado.
+			this->swap(init_list);
+			return *this;
+		}
+
 		// Modificador assign.
 
 		// Iteradores.
@@ -534,10 +579,28 @@ namespace mySTL
 		/// Retorna un iterador constante al final.
 		inline const_iterator cend() const noexcept { return end(); }
 
-		// Capacidad
+		// Capacidad.
 
 		/// Retorna la cantidad de elementos del contenedor.
 		inline size_type size() const noexcept { return std::distance(begin(), end()); }
+
+		// Acceso a elementos.
+
+		// Modificadores.
+
+		/**
+		 * Intercambia el contenido de este objeto por el contenido de @a other.
+		 * 
+		 * @param other Otro objeto deque del mismo tipo, para intercambiar sus elementos.
+		 */
+		void swap(deque& other)
+		{
+			using std::swap; // Función swap de la biblioteca estándar.
+			swap(this->map, other.map);
+			swap(this->map_size, other.map_size);
+			swap(this->start, other.start);
+			swap(this->finish, other.finish);
+		}
 
 
 	// Métodos privados
