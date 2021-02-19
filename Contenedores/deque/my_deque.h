@@ -557,11 +557,55 @@ namespace mySTL
 			// Construir un deque con la lista de inicialización recibida.
 			auto temp_il_deque = deque(init_list);
 			// Intercambiar elementos con el deque creado.
-			this->swap(init_list);
+			this->swap(temp_il_deque);
 			return *this;
 		}
 
 		// Modificador assign.
+
+		/**
+		 * Reemplaza el contenido del contenedor con @a count elementos, 
+		 * donde cada elemento es una copia de @a value.
+		 * 
+		 * @param count El nuevo tamaño del contenedor.
+		 * @param value Valor para asignar los elementos del contenedor.
+		 */
+		void assign(size_type count, const value_type& value)
+		{
+			// Crear un deque con los parámetros recibidos.
+			auto temp_fill_deque = deque(count, value);
+			// Intercambiar elementos con el deque creado.
+			this->swap(temp_fill_deque);
+		}
+
+		/**
+		 * Reemplaza el contenido del objeto con elementos
+		 * en el rango [@a first, @a last).
+		 * 
+		 * @param first, last	Iteradores a las posiciones inicial y final
+		 * en un rango.
+		 */
+		template <typename InputIterator,
+			typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
+				typename std::iterator_traits<InputIterator>::iterator_category>>>
+		void assign(InputIterator first, InputIterator last)
+		{
+			auto temp_it_deque = deque(first, last);
+			this->swap(temp_it_deque);
+		}
+
+		/**
+		 * Reemplaza el contenido del contenedor por una copia de
+		 * los elementos de @a init_list.
+		 * 
+		 * @param init_list Objeto initializer_list para reemplazar
+		 * el contenido del contenendor.
+		 */
+		void assign(std::initializer_list<value_type> init_list)
+		{
+			auto temp_il_deque = deque(init_list);
+			this->swap(temp_il_deque);
+		}
 
 		// Iteradores.
 

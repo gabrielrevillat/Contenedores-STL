@@ -52,6 +52,9 @@ int testDeque()
 	std::cout << "deque6: ";
 	print_deque(deque6); // [ 4.20, 3.14, 0.69 ]
 
+	//for ( double& element : deque6 )
+	//	printf("%.2f, ")
+
 	std::cout << '\n';
 
 	std::cout << "Prueba del operador = y el metodo size:\n";
@@ -78,7 +81,26 @@ int testDeque()
 	std::cout << "Size of deque9: " << int( deque9.size() ) << '\n'; // 4
 	std::cout << '\n';
 
+	std::cout << "Prueba del metodo assign:\n";
 
+	mySTL::deque<int> deque10;
+	// 7 enteros con valor 100.
+	deque10.assign(7, 100);
+
+	mySTL::deque<int> deque11;
+	// Los 5 valores centrales de deque10.
+	deque11.assign(deque10.begin() + 1, deque10.end() - 1);
+
+	mySTL::deque<int> deque12;
+	// Asignar desde un arreglo.
+	// int my_ints[] = { 3, 4, 5 };
+	//deque12.assign(my_ints, my_ints + 3);
+
+	std::cout << "Size of deque10: " << int( deque10.size() ) << '\n'; // 7
+	std::cout << "Size of deque11: " << int( deque11.size() ) << '\n'; // 5
+	std::cout << "Size of deque12: " << int( deque12.size() ) << '\n'; // 3
+
+	std::cout << '\n';
 
 	std::cout << "Funciona chingadaaaaa\n";
 

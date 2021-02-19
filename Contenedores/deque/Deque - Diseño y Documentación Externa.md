@@ -579,6 +579,59 @@ Reemplaza el contenido del contenedor por una copia de los elementos de *init_li
 deque& operator=(std::initializer_list<value_type> init_list);
 ```
 
+### assign
+
+**Asigna contenido.**
+
+Asigna nuevo contenido al contenedor. Reemplaza su contenido actual y modifica su tamaño.
+
+1. #### Asignación con relleno
+
+Reemplaza el contenido del contenedor con *count* elementos, donde cada elemento es una copia de *value*.
+
+* **Parámetros**:
+    * *count*: El nuevo tamaño del contenedor.
+    * *value*: Valor para asignar los elementos del contenedor.
+* **Retorna**: Nada.
+* **Complejidad**: Lineal según el tamaño del contenedor.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+void assign(size_type count, const value_type& value);
+```
+
+2. #### Asignación con rango
+
+Reemplaza el contenido del objeto con elementos en el rango [*first*, *last*).
+
+* **Parámetros**:
+    * *first*, *last*: Iteradores a las posiciones inicial y final en un rango.
+* **Complejidad**: Lineal según el tamaño del contenedor.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+template <typename InputIterator,
+    typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
+                typename std::iterator_traits<InputIterator>::iterator_category>>>
+    void assign(InputIterator first, InputIterator last);
+```
+
+3. #### Asignación por lista de inicialización
+
+Reemplaza el contenido del contenedor por una copia de los elementos de *init_list*.
+
+* **Parámetros**:
+    * *init_list*: Objeto `std::initializer_list` para reemplazar el contenido del contenendor.
+* **Retorna**: `*this`
+* **Complejidad**: Lineal según el tamaño del contenedor.
+* **Declaración**:
+
+```C++
+void assign(std::initializer_list<value_type> init_list);
+```
+
 ### Iteradores
 
 1. #### begin
