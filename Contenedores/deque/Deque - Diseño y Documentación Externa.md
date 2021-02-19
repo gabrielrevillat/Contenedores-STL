@@ -340,7 +340,7 @@ Retorna el número de elementos entre `iterator1` y `iterator2`.
 template <typename ValueType>
 inline typename my_deque_iterator<ValueType>::difference_type
 		operator-(const my_deque_iterator<ValueType>& iterator1,
-			const my_deque_iterator<ValueType>& iterator2) noexcept
+			const my_deque_iterator<ValueType>& iterator2) noexcept;
 ```
 
 ![Representación y explicación de la resta entre iteradores.](https://user-images.githubusercontent.com/64336377/108461358-32c24d00-7240-11eb-8aa1-3a6c75249670.png "Resta entre iteradores")
