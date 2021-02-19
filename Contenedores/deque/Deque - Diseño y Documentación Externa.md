@@ -338,7 +338,7 @@ Retorna el número de elementos entre `iterator1` y `iterator2`.
 
 ```C++
 template <typename ValueType>
-inline typename my_deque_iterator<ValueType>::difference_type
+typename my_deque_iterator<ValueType>::difference_type
 		operator-(const my_deque_iterator<ValueType>& iterator1,
 			const my_deque_iterator<ValueType>& iterator2) noexcept;
 ```
@@ -608,4 +608,22 @@ Retorna un `const_iterator` que apunta al elemento siguiente al último del conte
 
 ```C++
 const_iterator cend() const noexcept;
+```
+
+### Capacidad
+
+1. #### size
+
+**Retorna el tamaño del contenedor.**
+
+Retorna el número de elementos del contenedor.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: La cantidad de elementos del contenedor.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+size_type size() const noexcept;
 ```

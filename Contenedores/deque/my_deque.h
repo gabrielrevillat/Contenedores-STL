@@ -462,7 +462,46 @@ namespace mySTL
 			, finish()
 		{
 			// Inicializar arreglo de nodos con el número de elementos de other.
+			this->create_map_and_nodes( other.size() );
 			// Copiar los elementos de other al contenedor.
+			mySTL::copy(other.begin(), other.end(), this->start);
+		}
+
+		/**
+		 * Constructor de movimiento. 
+		 * 
+		 * Construye un contenedor que adquiere los elementos de @a temp,
+		 * con semánticas de movimiento.
+		 * 
+		 * @param temp  Otro objeto vector del mismo tipo,
+		 * para inicializar el contenedor.
+		 */
+		deque(deque&& temp)
+			// Inicializar atributos directamente con los del contenedor recibido.
+			: map(temp.map)
+			, map_size(temp.map_size)
+			, start(temp.start)
+			, finish(temp.finish)
+		{
+			// Dejar vacío el contenedor temp.
+			temp.map = nullptr;
+			temp.start = temp.finish = nullptr;
+			temp.map_size = 0;
+		}
+
+		deque(std::initializer_list<value_type> init_list)
+			: map(nullptr)
+			, map_size(0)
+			, start()
+			, finish()
+		{
+			// El número de elementos es el tamaño de init_list.
+			size_type count = init_list.size();
+			// Inicializar arreglo de nodos con count elementos.
+			this->create_map_and_nodes(count);
+
+			// Copiar los elementos de init_list al contenedor.
+			mySTL::copy(init_list.begin(), init_list.end(), this->start);
 		}
 
 		/**
@@ -494,6 +533,11 @@ namespace mySTL
         inline const_iterator end() const noexcept { return this->finish; }
 		/// Retorna un iterador constante al final.
 		inline const_iterator cend() const noexcept { return end(); }
+
+		// Capacidad
+
+		/// Retorna la cantidad de elementos del contenedor.
+		inline size_type size() const noexcept { return std::distance(begin(), end()); }
 
 
 	// Métodos privados

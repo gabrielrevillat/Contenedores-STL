@@ -29,6 +29,10 @@ int testDeque()
 	mySTL::deque<int> deque2(4, 100);
 	// Iterando a través de deque2.
 	mySTL::deque<int> deque3(deque2.begin(), deque2.end());
+	// Una copia de deque3.
+	mySTL::deque<int> deque4(deque3);
+	// initializer_list
+	mySTL::deque<int> deque5{ 16, 2, 77, 29 };
 
 	std::cout << "deque1: ";
 	print_deque(deque1); // [  ]
@@ -36,6 +40,10 @@ int testDeque()
 	print_deque(deque2); // [ 100, 100, 100, 100 ]
 	std::cout << "deque3: ";
 	print_deque(deque3); // [ 100, 100, 100, 100 ]
+	std::cout << "deque4: ";
+	print_deque(deque4); // [ 100, 100, 100, 100 ]
+	std::cout << "deque5: ";
+	print_deque(deque5); // [ 16, 2, 77, 29 ]
 
 
 	std::cout << '\n';
