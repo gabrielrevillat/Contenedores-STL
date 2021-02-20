@@ -154,7 +154,7 @@ namespace mySTL
 		self& operator+=(difference_type count) noexcept
 		{
 			// Nueva posición a la que va a apuntar el iterador.
-			const difference_type new_position = count + (first - current);
+			const difference_type new_position = count + (current - first);
 
 			// Si la nueva posición se encuentra dentro de los límites del fragmento
 			if ( (new_position >= 0) && (new_position < difference_type( buffer_size() )) )

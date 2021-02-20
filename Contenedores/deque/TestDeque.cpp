@@ -89,7 +89,7 @@ int testDeque()
 
 	mySTL::deque<int> deque11;
 	// Los 5 valores centrales de deque10.
-	deque11.assign(deque10.begin() + 1, deque10.begin() + 6);
+	deque11.assign(deque10.begin() + 1, deque10.end() - 1);
 
 	mySTL::deque<int> deque12;
 	// Asignar desde un arreglo.
