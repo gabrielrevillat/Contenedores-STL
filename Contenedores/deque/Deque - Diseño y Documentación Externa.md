@@ -711,6 +711,78 @@ Retorna un `const_iterator` que apunta al elemento siguiente al último del conte
 const_iterator cend() const noexcept;
 ```
 
+5. #### rbegin
+
+**Retorna un iterador inverso al principio del contenedor invertido.**
+
+Retorna un iterador inverso que apunta al último elemento del contenedor no invertido.
+
+Este método apunta al elemento anterior al que sería apuntado por el método `deque::end`.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Un iterador inverso al principio de la secuencia invertida.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+reverse_iterator rbegin() noexcept;
+const_reverse_iterator rbegin() const noexcept;
+```
+
+6. #### crbegin
+
+**Retorna un *const_reverse_iterator* al principio del contenedor invertido.**
+
+Retorna un `const_reverse_iterator` que apunta al último elemento del contenedor no invertido.
+
+Un `const_reverse_iterator` es un iterador que apunta a contenido constante e itera en orden inverso.
+Este iterador se puede aumentar o disminuir (a menos de que sea también constante),
+igual que el iterador que retorna `deque::rbegin`, pero no puede usarse para modificar el contenido al que apunta.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Un `const_reverse_iterator` al principio de la secuencia invertida.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+const_reverse_iterator crbegin() const noexcept;
+```
+
+7. #### rend
+
+**Retorna un iterador inverso al final del contenedor invertido.**
+
+Retorna un iterador inverso que apunta al elemento anterior al primer elemento del contenedor no invertido.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Un iterador inverso al final de la secuencia invertida.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+reverse_iterator rend() noexcept;
+const_reverse_iterator rend() const noexcept;
+```
+
+8. #### crend
+
+**Retorna un *const_reverse_iterator* al final del contenedor invertido.**
+
+Retorna un `const_reverse_iterator` que apunta al elemento anterior al primer elemento del contenedor no invertido.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Un `const_reverse_iterator` al final de la secuencia invertida.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+const_reverse_iterator crend() const noexcept;
+```
+
 ### Capacidad
 
 1. #### size
