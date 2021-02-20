@@ -89,12 +89,12 @@ int testDeque()
 
 	mySTL::deque<int> deque11;
 	// Los 5 valores centrales de deque10.
-	deque11.assign(deque10.begin() + 1, deque10.end() - 1);
+	deque11.assign(deque10.begin() + 1, deque10.begin() + 6);
 
 	mySTL::deque<int> deque12;
 	// Asignar desde un arreglo.
-	// int my_ints[] = { 3, 4, 5 };
-	//deque12.assign(my_ints, my_ints + 3);
+	int my_ints[] = { 3, 4, 5 };
+	deque12.assign(my_ints, my_ints + 3);
 
 	std::cout << "Size of deque10: " << int( deque10.size() ) << '\n'; // 7
 	std::cout << "Size of deque11: " << int( deque11.size() ) << '\n'; // 5
