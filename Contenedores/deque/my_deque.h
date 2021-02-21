@@ -642,6 +642,15 @@ namespace mySTL
 		/// Retorna la cantidad de elementos del contenedor.
 		inline size_type size() const noexcept { return std::distance(begin(), end()); }
 
+		/// Retorna la cantidad máxima de elementos que puede contener el contenedor.
+		inline size_type max_size() const noexcept
+		{
+			// Fórmula basada en el resultado obtenido del max_size del std en mi computadora.
+			return ( ( pow(2, 63) / sizeof(value_type) ) - 1 );
+		}
+
+
+
 		// Acceso a elementos.
 
 		// Modificadores.

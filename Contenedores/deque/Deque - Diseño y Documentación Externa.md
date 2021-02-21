@@ -801,6 +801,28 @@ Retorna el número de elementos del contenedor.
 size_type size() const noexcept;
 ```
 
+2. #### max_size
+
+**Retorna el tamaño máximo del contenedor.**
+
+Retorna la cantidad máxima de elementos que puede contener el contenedor.
+
+Este es el tamaño máximo potencial que puede alcanzar el contenedor por limitaciones del sistema,
+pero no está garantizado que el contenedor sea capaz de alcanzar ese tamaño.
+Asignar almacenamiento en cualquier punto antes de ese tamaño podría fallar de igual forma.
+
+Fórmula, basada en el valor que retorna el método en mi computadora: (2^63)/(Tamaño en bytes de *ValueType*) - 1
+
+* **Parámetros**: Ninguno.
+* **Retorna**: El número máximo de elementos que puede tener el contenedor como contenido.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+size_type max_size() const noexcept;
+```
+
 ### Modificadores
 
 7. #### swap
