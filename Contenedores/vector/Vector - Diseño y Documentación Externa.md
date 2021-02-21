@@ -481,7 +481,7 @@ size_type capacity() const noexcept;
 Retorna un valor `bool` que indica si el contenedor está vacío, es decir, cuando su tamaño es igual a 0.
 
 * **Parámetros**: Ninguno.
-* **Retorna**: `true` si el tamaño del *array* es 0; de lo contrario, `false`.
+* **Retorna**: `true` si el tamaño del *vector* es 0; de lo contrario, `false`.
 * **Complejidad**: Constante.
 * **Excepciones**: No se lanzan excepciones.
 * **Declaración**:

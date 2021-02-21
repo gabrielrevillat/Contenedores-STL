@@ -651,6 +651,9 @@ namespace mySTL
 
 
 
+		/// Verifica si el contenedor está vacío.
+		inline bool empty() const noexcept { return (size() == 0); }
+
 		// Acceso a elementos.
 
 		// Modificadores.

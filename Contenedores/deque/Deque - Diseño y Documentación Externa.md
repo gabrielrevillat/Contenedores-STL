@@ -823,6 +823,22 @@ Fórmula, basada en el valor que retorna el método en mi computadora: (2^63)/(Tam
 size_type max_size() const noexcept;
 ```
 
+4. #### empty
+
+**Verifica si el contenedor está vacío.**
+
+Retorna un valor `bool` que indica si el contenedor está vacío, es decir, cuando su tamaño es igual a 0.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: `true` si el tamaño del *deque* es 0; de lo contrario, `false`.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+bool empty() const noexcept;
+```
+
 ### Modificadores
 
 7. #### swap
