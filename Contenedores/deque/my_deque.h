@@ -4,8 +4,10 @@
 #include "../algorithm/my_algorithm.h"
 
 #include <iterator>
+#include <cmath>
 #include <cstddef>
 #include <utility>
+#include <stdexcept>
 #include <type_traits>
 
 namespace mySTL
@@ -655,6 +657,58 @@ namespace mySTL
 		inline bool empty() const noexcept { return (size() == 0); }
 
 		// Acceso a elementos.
+
+		/**
+		 * Retorna una referencia al elemento en la posición @a index del contenedor.
+		 * 
+		 * @param index Posición de un elemento en el contenedor.
+		 * @return El elemento en la posición especificada.
+		 */
+		inline reference operator[](size_type index) { return *(begin() + index); }
+
+		/**
+		* Retorna una referencia al elemento en la posición @a index del contenedor.
+		* 
+		* @param index Posición de un elemento en el contenedor.
+		* @return El elemento en la posición especificada.
+		*/
+		inline const_reference operator[](size_type index) const { return *(begin() + index); }
+
+		/**
+		 * Retorna una referencia al elemento en la posición @a index del contenedor. 
+		 * 
+		 * Este método verifica si @a index está dentro del límite de elementos
+		 * válidos en el contenedor. Si no lo está, lanza una excepción.
+		 * 
+		 * @param index Posición de un elemento en el contenedor.
+		 * @throw std::out_of_range
+		 * @return El elemento en la posición especificada.
+		 */
+		inline reference at(size_type index)
+		{
+			if (index >= size())
+				throw std::out_of_range("mySTL::deque::at");
+
+			return *(begin() + index);
+		}
+
+		/**
+		* Retorna una referencia al elemento en la posición @a index del contenedor. 
+		* 
+		* Este método verifica si @a index está dentro del límite de elementos
+		* válidos en el contenedor. Si no lo está, lanza una excepción.
+		* 
+		* @param index Posición de un elemento en el contenedor.
+		* @throw std::out_of_range
+		* @return El elemento en la posición especificada.
+		*/
+		inline const_reference at(size_type index) const
+		{
+			if (index >= size())
+				throw std::out_of_range("mySTL::deque::at");
+
+			return *(begin() + index);
+		}
 
 		// Modificadores.
 

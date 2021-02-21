@@ -49,11 +49,14 @@ int testDeque()
 	print_deque(deque4); // [ 100, 100, 100, 100 ]
 	std::cout << "deque5: ";
 	print_deque(deque5); // [ 16, 2, 77, 29 ]
-	std::cout << "deque6: ";
-	print_deque(deque6); // [ 4.20, 3.14, 0.69 ]
 
-	//for ( double& element : deque6 )
-	//	printf("%.2f, ")
+	std::cout << "deque6: [ ";
+	for (unsigned index = 0; index < 3; ++index)
+	{
+		printf("%.2f", deque6[index]);
+		if (index < 2) std::cout << ", ";
+	}
+	std::cout << " ]\n";
 
 	std::cout << '\n';
 
@@ -100,6 +103,32 @@ int testDeque()
 	std::cout << "Size of deque11: " << int( deque11.size() ) << '\n'; // 5
 	std::cout << "Size of deque12: " << int( deque12.size() ) << '\n'; // 3
 
+	std::cout << '\n';
+
+	mySTL::deque<int> deque13;
+
+	std::cout << "Prueba del operador [] y el metodo at:\n";
+
+	mySTL::deque<int> deque14(10);
+
+	mySTL::deque<int>::size_type deque_size = deque14.size();
+
+	for (unsigned index = 0; index < deque_size; ++index)
+		deque14[index] = index;
+
+	// Invertir el deque14 usando el operador [].
+	for (unsigned index = 0; index < (deque_size / 2); ++index)
+	{
+		int temp;
+		temp = deque14[deque_size - 1 - index];
+		deque14[deque_size - 1 - index] = deque14[index];
+		deque14[index] = temp;
+	}
+
+	std::cout << "deque14: [ ";
+	for (unsigned index = 0; index < deque_size; ++index)
+		std::cout	<< deque14.at(index)
+					<< ( (index < (deque_size - 1)) ? ", " : " ]\n" );
 	std::cout << '\n';
 
 	std::cout << "Funciona chingadaaaaa\n";

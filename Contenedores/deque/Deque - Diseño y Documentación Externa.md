@@ -839,6 +839,51 @@ Retorna un valor `bool` que indica si el contenedor está vacío, es decir, cuando
 bool empty() const noexcept;
 ```
 
+### Acceso a elementos
+
+1. #### operator[]
+
+**Accede a un elemento.**
+
+Retorna una referencia al elemento en la posición *index* del contenedor.
+
+A diferencia de `deque::at`, este método no hace comprobación de límites.
+
+* **Parámetros**:
+    * *index*: Posición de un elemento en el contenedor.
+* **Retorna**: El elemento en la posición especificada del *deque*.
+Si el objeto *deque* es const, el método retorna una `const_reference`. De lo contrario, retrona una `reference`.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+reference operator[](size_type index);
+const_reference operator[](size_type index) const;
+
+2. #### at
+
+**Accede a un elemento.**
+
+Retorna una referencia al elemento en la posición *index* del contenedor.
+
+Este método verifica automáticamente si *index* se encuentra dentro del límite de elementos válidos en el contenedor.
+Si no lo está, lanza una excepción `std::out_of_range`.
+
+* **Parámetros**:
+  * *index*: Posición de un elemento en el contenedor. Si es mayor o igual al tamaño del contenedor,
+  se lanza una excepción `std::out_of_range`.
+* **Retorna**: El elemento en la posición especificada del *deque*. Si el objeto *deque* es const,
+el método retorna una `const_reference`. De lo contrario, retrona una `reference`.
+* **Complejidad**: Constante.
+* **Excepciones**: `std::out_of_range` si *index* está fuera de los límites del contenedor.
+* **Declaración**:
+
+```C++
+reference at(size_type index);
+const_reference at(size_type index) const;
+```
+
 ### Modificadores
 
 7. #### swap

@@ -4,6 +4,7 @@
 #include "my_deque.h"
 
 #include <iostream>
+#include <cstdio>
 
 int testDeque();
 
