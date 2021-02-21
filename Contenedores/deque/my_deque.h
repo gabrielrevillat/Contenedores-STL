@@ -710,6 +710,16 @@ namespace mySTL
 			return *(begin() + index);
 		}
 
+		/// Retorna una referencia al primer elemento en el contenedor.
+		inline reference front() { return *(begin()); }
+		/// Retorna una referencia al primer elemento en el contenedor.
+		inline const_reference front() const { return *(begin()); }
+
+		/// Retorna una referencia al último elemento en el contenedor.
+		inline reference back() { return *(end() - 1); }
+		/// Retorna una referencia al último elemento en el contenedor.
+		inline const_reference back() const { return *(end() - 1); }
+
 		// Modificadores.
 
 		/**

@@ -884,6 +884,46 @@ reference at(size_type index);
 const_reference at(size_type index) const;
 ```
 
+3. #### front
+
+**Accede al primer elemento.**
+
+Retorna una referencia al primer elemento en el contenedor.
+
+El llamado a este método en un contenedor vacío tiene comportamiento indefinido.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Una referencia al primer elemento del contenedor. Si el objeto *deque* es const,
+el método retorna una `const_reference`. De lo contrario, retrona una `reference`.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+reference front();
+const_reference front() const;
+```
+
+4. #### back
+
+**Accede al último elemento.**
+
+Retorna una referencia al último elemento en el contenedor.
+
+El llamado a este método en un contenedor vacío tiene comportamiento indefinido.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Una referencia al último elemento del contenedor. Si el objeto *deque* es const,
+el método retorna una `const_reference`. De lo contrario, retrona una `reference`.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+reference back();
+const_reference back() const;
+```
+
 ### Modificadores
 
 7. #### swap
