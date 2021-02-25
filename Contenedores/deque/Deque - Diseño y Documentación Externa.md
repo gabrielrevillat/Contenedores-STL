@@ -41,6 +41,10 @@ el *deque* actúa peor y posee iteradores y referencias menos consistentes que *l
 
 ## Introducción - Idea de implementación
 
+**Nota: La mayor parte del diseño y la implementación de este contenedor está basado en la implementación de la biblioteca
+estándar de C++. El propósito general es aprender cómo se realiza por dentro el manejo de almacenamiento de los elementos,
+ya que este es un contenedor bastante complicado como para ser pensado por sí solo.**
+
 ### Tamaño de los fragmentos de memoria
 
 Tenemos que los elementos del *deque* estarán dispersados en diferentes fragmentos de memoria. Estos fragmentos son
@@ -78,8 +82,17 @@ su puntero `current` apunta directamente al elemento siguiente al último de ese 
 ![Representación de los dos iteradores que va a tener internamente el *deque*.](https://user-images.githubusercontent.com/64336377/105269247-2b345900-5b59-11eb-8931-374882561b61.png "Atributos privados del deque")
 Representación de los dos iteradores que va a tener internamente el contenedor y los elementos a los que apuntan los atributos de cada iterador (ft. despiche de flechas xd).
 
-La mayoría de métodos serán basados en una versión antigua de la implementación oficial del contenedor de `std`.
-Cuando esos métodos sean analizados y entendidos correctamente, se agregará un diseño más detallado a este apartado.
+### Métodos privados del contenedor
+
+Los métodos privados del contenedor son los que se encargan principalmente de:
+
+* Crear el arreglo (llamado mapa) de punteros (llamados nodos) a fragmentos de memoria.
+* Reasignar el arreglo de punteros cuando su almacenamiento se llena.
+* Asignar nuevo espacio para elementos al inicio o al final del contenedor.
+* Agregar elementos al inicio o al final del contenedor.
+
+La implementación de estos métodos está basada casi en su totalidad en la implementación de `libstdc++`.
+Una explicación detallada de cada método se puede encontrar en el apartado *Métodos privados*.
 
 ## Documentación del `deque::iterator`
 
@@ -434,6 +447,22 @@ Destruye el arreglo de punteros y su contenido.
 ```C++
 void destroy_map_and_nodes();
 ```
+
+### reallocate_map
+
+Realiza una re-ubicación de los nodos del arreglo de punteros `map` si no hay suficiente
+espacio en alguno de los extremos. Si no hay espacio en ambos extremos, realiza
+una reasignación completa del arreglo de punteros.
+
+Este método calcula la cantidad nueva de nodos que va a tener el mapa.
+Si el tamaño actual del mapa es mayor al doble de esta cantidad calculada,
+hay suficiente espacio en el otro extremo del contenedor; por lo tanto, solo
+hace falta desplazar los nodos un poco hacia el otro extremo. En caso contrario,
+no hay suficiente espacio en el otro extremo y entonces el mapa debe ser reasignado.
+
+Al reasignar el mapa, para calcular su nuevo tamaño: Si la cantidad de nodos por agregar supera
+el tamaño actual del mapa, sumarle esa cantidad al tamaño. De lo contrario, doblar el tamaño
+del mapa. En ambos casos, sumar 2 para los nodos extra en los extremos.
 
 ## Métodos públicos
 
@@ -926,6 +955,29 @@ const_reference back() const;
 
 ### Modificadores
 
+### Modificadores
+
+1. #### push_back
+
+**Agrega un elemento al final.**
+
+Agrega un nuevo elemento al final del *deque*, después de su último elemento actual.
+El contenido de *value* se copia o se mueve al nuevo elemento.
+
+Este método incrementa eficazmente en uno el tamaño del contenedor.
+
+* **Parámetros**:
+    * *value*: El valor del elemento por agregar al contenedor.
+* **Retorna**: Nada.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+void push_back(const value_type& value);
+void push_back(value_type&& value);
+```
+
 7. #### swap
 
 **Intercambia contenido.**
@@ -947,4 +999,25 @@ Este método llama a `std::swap` para intercambiar los atributos privados del *de
 
 ```C++
 void swap(deque& other);
+```
+
+11. #### emplace_back
+
+**Construye e inserta un elemento al final.**
+
+Agrega un nuevo elemento al final del *vector*, después de su último elemento actual.
+Este elemento utiliza *args* como los argumentos para su construcción.
+
+Este método incrementa eficazmente en uno el tamaño del contenedor.
+
+* **Parámetros**:
+    * *args*: Argumentos que se "reenvían" (`std::forward`) para construir el nuevo elemento.
+* **Retorna**: Nada.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+template <typename... Args>
+    void emplace_back(Args&&... args);
 ```

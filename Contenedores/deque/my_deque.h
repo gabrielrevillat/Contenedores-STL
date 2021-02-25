@@ -723,6 +723,37 @@ namespace mySTL
 		// Modificadores.
 
 		/**
+		 * Agrega un nuevo elemento al final del contenedor y aumenta su tamaño.
+		 * 
+		 * @param value El valor del elemento por agregar al contenedor.
+		 */
+		void push_back(const value_type& value)
+		{
+			this->emplace_back(value);
+		}
+
+		/**
+		* Agrega un nuevo elemento al final del contenedor y aumenta su tamaño.
+		* 
+		* @param value El valor del elemento por agregar al contenedor.
+		*/
+		void push_back(value_type&& value)
+		{
+			this->emplace_back(std::forward<value_type>(value));
+		}
+
+		/**
+		 * Construye e inserta un elemento al final del contenedor.
+		 * 
+		 * @param args  Argumentos para construir el nuevo elemento.
+		 */
+		template <typename... Args>
+		void emplace_back(Args&&... args)
+		{
+
+		}
+
+		/**
 		 * Intercambia el contenido de este objeto por el contenido de @a other.
 		 * 
 		 * @param other Otro objeto deque del mismo tipo, para intercambiar sus elementos.
@@ -800,9 +831,81 @@ namespace mySTL
 				current < this->finish.node; ++current)
 				delete [] *current;
 
-			delete [] map; // Destruir arreglo de nodos.
+			delete [] this->map; // Destruir arreglo de nodos.
 		}
 
+		/**
+		 * Realiza una reasignación de los nodos del mapa o del mapa en sí,
+		 * según el espacio sobrante en los extremos y según por cuál extremo
+		 * se están agregando los nuevos elementos.
+		 * 
+		 * @param num_of_nodes_to_add	El número de nodos que se agregan a map.
+		 * @param adding_at_front		Indica el extremo por el cual se agregan
+		 * los nuevos nodos.
+		 */
+		void reallocate_map(size_type num_of_nodes_to_add, bool adding_at_front)
+		{
+			// Guardar la cantidad actual/vieja de nodos del arreglo de nodos.
+			size_type old_num_of_nodes = this->finish.node - this->start.node + 1;
+			// Calcular la cantidad nueva de nodos que va a tener el arreglo de nodos.
+			size_type new_num_of_nodes = old_num_of_nodes + num_of_nodes_to_add;
+
+			// Puntero a nodo que va a apuntar al nuevo inicio del contenedor.
+			map_pointer new_start_node;
+
+			// Si el tamaño del arreglo de punteros es mayor al doble 
+			// de la nueva cantidad de nodos, hay suficiente espacio 
+			// en el otro extremo del contenedor. Por lo tanto, solo hace falta
+			// desplazar los nodos.
+			if ( this->map_size > (new_num_of_nodes * 2) )
+			{
+				// Calcular cuántos espacios deben desplazarse los nodos
+				// según el tamaño del mapa y la nueva cantidad de nodos.
+				new_start_node = map + (this->map_size - new_num_of_nodes) / 2;
+				// Verificar hacia dónde deben desplazarse los nodos.
+				if (adding_at_front)
+					new_start_node += num_of_nodes_to_add;
+
+				// Si el nuevo inicio se encuentra a la izquierda del inicio actual
+				if (new_start_node < this->start.node)
+					// Desplazar nodos hacia la izquierda.
+					mySTL::copy(this->start.node, this->finish.node + 1, new_start_node);
+				else // De lo contrario
+					// Desplazar nodos hacia la derecha.
+					mySTL::copy_backward(this->start.node, this->finish.node + 1,
+						new_start_node + old_num_of_nodes);
+			}
+			// De lo contrario, no hay suficiente espacio en los extremos
+			// y el mapa debe ser reasignado.
+			else
+			{
+				// Calcular el nuevo tamaño del arreglo de nodos.
+				size_type new_map_size = this->map_size
+					+ mySTL::max(this->map_size, num_of_nodes_to_add) + 2;
+
+				// Crear el nuevo mapa con el nuevo tamaño calculado.
+				map_pointer new_map = new pointer[new_map_size];
+
+				// Calcular el nuevo inicio en el nuevo mapa según el nuevo tamaño
+				// y la nueva cantidad de nodos.
+				new_start_node = new_map + (new_map_size - new_num_of_nodes) / 2;
+				if (adding_at_front)
+					new_start_node += num_of_nodes_to_add;
+
+				// Copiar los elementos al inicio del nuevo mapa.
+				mySTL::copy(this->start.node, this->finish.node + 1, new_start_node);
+
+				delete [] this->map; // Destruir mapa actual.
+
+				// Asignar a los atributos el nuevo mapa y su nuevo tamaño.
+				this->map = new_map;
+				this->map_size = new_map_size;
+			}
+
+			// Asignar iteradores.
+			this->start.set_node(new_start_node);
+			this->finish.set_node(new_start_node + old_num_of_nodes - 1);
+		}
 
 	};
 
