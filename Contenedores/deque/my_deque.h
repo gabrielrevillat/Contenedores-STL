@@ -907,6 +907,133 @@ namespace mySTL
 			this->finish.set_node(new_start_node + old_num_of_nodes - 1);
 		}
 
+		/**
+		 * Verifica si hay suficiente espacio al final del mapa para poder
+		 * agregar @a num_of_nodes_to_add nodos. Si no hay suficiente espacio,
+		 * se reasigna el almacenamiento.
+		 * 
+		 * @param num_of_nodes_to_add	El número de nodos que se agregan a map.
+		 */
+		void reserve_map_at_back(size_type num_of_nodes_to_add = 1)
+		{
+			// Si la cantidad de nodos que se quiere agregar
+			// es mayor que el espacio libre al final del mapa
+			if ( num_of_nodes_to_add + 1
+				> (this->map_size - (this->finish.node - this->map)) )
+				// Reasignar el almacenamiento del arreglo de nodos.
+				// false indica que los nodos se quieren agregar al final.
+				this->reallocate_map(num_of_nodes_to_add, false);
+		}
+
+		/**
+		* Verifica si hay suficiente espacio al inicio del mapa para poder 
+		* agregar @a num_of_nodes_to_add nodos. Si no hay suficiente espacio, 
+		* se reasigna el almacenamiento.
+		* 
+		* @param num_of_nodes_to_add	El número de nodos que se agregan a map.
+		*/
+		void reserve_map_at_front(size_type num_of_nodes_to_add = 1)
+		{
+			// Si la cantidad de nodos que se quiere agregar
+			// es mayor que el espacio libre al inicio del mapa
+			if ( num_of_nodes_to_add > (this->start.node - this->map) )
+				// Reasignar el almacenamiento del arreglo de nodos.
+				// true indica que los nodos se quieren agregar al inicio.
+				this->reallocate_map(num_of_nodes_to_add, true);
+		}
+
+		/**
+		 * Crea nodos al final del contenedor para poder insertar 
+		 * @a new_elements_count elementos.
+		 * 
+		 * @param new_elements_count	El número de elementos que se agregan
+		 * a los nuevos nodos.
+		 */
+		void create_new_nodes_at_back(size_type new_elements_count)
+		{
+			// Calcular la cantidad de nodos que se deben crear,
+			// según la cantidad de elementos por agregar y el 
+			// tamaño de los fragmentos de memoria.
+			size_type new_nodes_count = (new_elements_count + buffer_size() - 1)
+				/ buffer_size();
+
+			// Reservar el espacio necesario.
+			this->reserve_map_at_back(new_nodes_count);
+
+			// Crear los nuevos nodos después del último nodo del mapa.
+			for (size_type current = 1; current <= new_nodes_count; ++current)
+				// Inicializar el nuevo fragmento de memoria actual.
+				*(this->finish.node + current) = new value_type[ buffer_size() ];
+		}
+
+		/**
+		* Crea nodos al inicio del contenedor para poder insertar 
+		* @a new_elements_count elementos.
+		* 
+		* @param new_elements_count	El número de elementos que se agregan
+		* a los nuevos nodos.
+		*/
+		void create_new_nodes_at_front(size_type new_elements_count)
+		{
+			size_type new_nodes_count = (new_elements_count + buffer_size() - 1)
+				/ buffer_size();
+
+			this->reserve_map_at_back(new_nodes_count);
+
+			// Crear los nuevos nodos antes del primer nodo del mapa.
+			for (size_type current = 1; current <= new_nodes_count; ++current)
+				// Inicializar el nuevo fragmento de memoria actual.
+				*(this->start.node - current) = new value_type[ buffer_size() ];
+		}
+
+		/**
+		 * Reserva espacio al final del contenedor para poder agregar 
+		 * @a count elementos y retorna un iterador al nuevo final 
+		 * del contenedor.
+		 * 
+		 * @param count	El número de elementos que se quieren agregar.
+		 * @return Un iterador al nuevo final de la secuencia.
+		 */
+		iterator reserve_elements_at_back(size_type count)
+		{
+			// Calcular los espacios disponibles para los nuevos
+			// elementos en el último fragmento de memoria.
+			size_type available_spaces = (this->finish.last - this->finish.current) - 1;
+
+			// Si el número de elementos por agregar es mayor
+			// al número de espacios disponibles en el fragmento
+			if (count > available_spaces)
+				// Crear nuevos nodos para poder agregar los elementos restantes.
+				this->create_new_nodes_at_back(count - available_spaces);
+
+			// Retornar el nuevo final del contenedor.
+			return (this->finish + difference_type(count));
+		}
+
+		/**
+		 * Reserva espacio al inicio del contenedor para poder agregar 
+		 * @a count elementos y retorna un iterador al nuevo inicio 
+		 * del contenedor.
+		 * 
+		 * @param count	El número de elementos que se quieren agregar.
+		 * @return Un iterador al nuevo inicio de la secuencia.
+		 */
+		iterator reserve_elements_at_front(size_type count)
+		{
+			// Calcular los espacios disponibles para los nuevos
+			// elementos en el primer fragmento de memoria.
+			size_type available_spaces = this->start.current - this->start.first;
+
+			// Si el número de elementos por agregar es mayor
+			// al número de espacios disponibles en el fragmento
+			if (count > available_spaces)
+				// Crear nuevos nodos para poder agregar los elementos restantes.
+				this->create_new_nodes_at_front(count - available_spaces);
+
+			// Retornar el nuevo inicio del contenedor.
+			return (this->start + difference_type(count));
+		}
+
 	};
 
 }

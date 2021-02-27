@@ -464,6 +464,117 @@ Al reasignar el mapa, para calcular su nuevo tamaño: Si la cantidad de nodos por
 el tamaño actual del mapa, sumarle esa cantidad al tamaño. De lo contrario, doblar el tamaño
 del mapa. En ambos casos, sumar 2 para los nodos extra en los extremos.
 
+* **Parámetros**:
+	* *num_of_nodes_to_add*: La cantidad de nodos a los que se debe hacer espacio en el mapa
+	para poder ser agregados.
+	* *adding_at_front*: Indica el extremo donde se quieren agregar los nodos. Su valor es `true` si
+	se quieren agregar al inicio del contenedor, de lo contrario es `false`.
+* **Retorna**: Nada.
+* **Complejidad**: Lineal en la cantidad de nodos del arreglo.
+* **Declaración**:
+
+```C++
+void reallocate_map(size_type num_of_nodes_to_add, bool adding_at_front);
+```
+
+### reserve_map_at_back
+
+Verifica si hay suficiente espacio al final del mapa para poder agregar *num_of_nodes_to_add*
+nodos. Si no hay suficiente espacio, se reasigna el almacenamiento.
+
+* **Parámetros**:
+	* *num_of_nodes_to_add*: La cantidad de nodos a los que se debe hacer espacio en el mapa
+	para poder ser agregados. Esta cantidad es de 1 por defecto.
+* **Retorna**: Nada.
+* **Complejidad**: Constante amortizada. (?, batazo y medio
+* **Declaración**:
+
+```C++
+void reserve_map_at_back(size_type num_of_nodes_to_add = 1);
+```
+
+### reserve_map_at_front
+
+Verifica si hay suficiente espacio al inicio del mapa para poder agregar *num_of_nodes_to_add*
+nodos. Si no hay suficiente espacio, se reasigna el almacenamiento.
+
+* **Parámetros**:
+	* *num_of_nodes_to_add*: La cantidad de nodos a los que se debe hacer espacio en el mapa
+	para poder ser agregados. Esta cantidad es de 1 por defecto.
+* **Retorna**: Nada.
+* **Complejidad**: Constante amortizada. (? x2
+* **Declaración**:
+
+```C++
+void reserve_map_at_front(size_type num_of_nodes_to_add = 1);
+```
+
+### create_new_nodes_at_back
+
+Crea nodos al final del contenedor para poder insertar *new_elements_count* elementos.
+
+Calcula la cantidad de nodos que se deben crear, reasigna el almacenamiento si es necesario
+y crea la cantidad de nodos correspondiente.
+
+* **Parámetros**:
+	* *new_elements_count*: El número de elementos que se quieren agregar al contenedor
+	a partir del primer nuevo nodo.
+* **Retorna**: Nada.
+* **Complejidad**: Lineal en el número de nodos.
+* **Declaración**:
+
+```C++
+void create_new_nodes_at_back(size_type new_elements_count);
+```
+
+### create_new_nodes_at_front
+
+Crea nodos al inicio del contenedor para poder insertar *new_elements_count* elementos.
+
+Calcula la cantidad de nodos que se deben crear, reasigna el almacenamiento si es necesario
+y crea la cantidad de nodos correspondiente.
+
+* **Parámetros**:
+	* *new_elements_count*: El número de elementos que se quieren agregar al contenedor
+	a partir del primer nuevo nodo.
+* **Retorna**: Nada.
+* **Complejidad**: Lineal en el número de nodos.
+* **Declaración**:
+
+```C++
+void create_new_nodes_at_front(size_type new_elements_count);
+```
+
+### reserve_elements_at_back
+
+Reserva espacio al final del contenedor para poder agregar *count* elementos
+y retorna un iterador al nuevo final del contenedor.
+
+* **Parámetros**:
+	* *count*: El número de elementos que se quieren agregar al contenedor.
+* **Retorna**: Un iterador al nuevo final de la secuencia.
+* **Complejidad**: Constante amortizada. (??
+* **Declaración**:
+
+```C++
+iterator reserve_elements_at_back(size_type count);
+```
+
+### reserve_elements_at_front
+
+Reserva espacio al inicio del contenedor para poder agregar *count* elementos
+y retorna un iterador al nuevo inicio del contenedor.
+
+* **Parámetros**:
+	* *count*: El número de elementos que se quieren agregar al contenedor.
+* **Retorna**: Un iterador al nuevo inicio de la secuencia.
+* **Complejidad**: Constante amortizada. (??
+* **Declaración**:
+
+```C++
+iterator reserve_elements_at_front(size_type count);
+```
+
 ## Métodos públicos
 
 ### Constructores
