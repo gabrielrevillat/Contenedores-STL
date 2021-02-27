@@ -750,7 +750,28 @@ namespace mySTL
 		template <typename... Args>
 		void emplace_back(Args&&... args)
 		{
-
+			// Si queda espacio en el último fragmento de memoria
+			if (this->finish.current != this->finish.last - 1)
+			{
+				// Construir el nuevo elemento en la última posición. 
+				*this->finish.current = std::forward<value_type>(value);
+				// Incrementar el iterador para que siga apuntando a
+				// la posición siguiente a la del último elemento.
+				++this->finish.current;
+			}
+			else // De lo contrario
+			{
+				// Reservar espacio al final del mapa
+				this->reserve_map_at_back();
+				// Crear un nuevo nodo al final
+				// e inicializarlo con un nuevo fragmento/buffer.
+				*(this->finish.node + 1) = new value_type[ buffer_size() ];
+				// Construir el nuevo elemento en la última posición del último fragmento.
+				*this->finish.current = std::forward<value_type>(value);
+				// Incrementar el iterador para que apunte al nuevo nodo.
+				this->finish.set_node(this->finish.node + 1);
+				this->finish.current = this->finish.first;
+			}
 		}
 
 		/**

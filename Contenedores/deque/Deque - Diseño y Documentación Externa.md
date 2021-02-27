@@ -1121,6 +1121,14 @@ Este elemento utiliza *args* como los argumentos para su construcción.
 
 Este método incrementa eficazmente en uno el tamaño del contenedor.
 
+Para insertar un elemento, este método verifica que el último elemento del contenedor
+no se encuentra en las últimas dos posiciones del último fragmento de memoria
+(Para esto, finish.current, que es el elemento siguiente al último del contenedor,
+no debe estar apuntando a finish.last - 1, que es la última posición del fragmento de
+memoria). De lo contrario, crea un nuevo nodo después del último y lo inicializa
+con un nuevo fragmento de memoria, inserta el elemento en la última posición del último
+fragmento de memoria y conecta ese fragmento con el nuevo.
+
 * **Parámetros**:
     * *args*: Argumentos que se "reenvían" (`std::forward`) para construir el nuevo elemento.
 * **Retorna**: Nada.
