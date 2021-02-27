@@ -754,7 +754,7 @@ namespace mySTL
 			if (this->finish.current != this->finish.last - 1)
 			{
 				// Construir el nuevo elemento en la última posición. 
-				*this->finish.current = std::forward<value_type>(value);
+				this->construct_element(this->finish.current, std::forward<Args>(args)...);
 				// Incrementar el iterador para que siga apuntando a
 				// la posición siguiente a la del último elemento.
 				++this->finish.current;
@@ -767,7 +767,7 @@ namespace mySTL
 				// e inicializarlo con un nuevo fragmento/buffer.
 				*(this->finish.node + 1) = new value_type[ buffer_size() ];
 				// Construir el nuevo elemento en la última posición del último fragmento.
-				*this->finish.current = std::forward<value_type>(value);
+				this->construct_element(this->finish.current, std::forward<Args>(args)...);
 				// Incrementar el iterador para que apunte al nuevo nodo.
 				this->finish.set_node(this->finish.node + 1);
 				this->finish.current = this->finish.first;
@@ -800,6 +800,17 @@ namespace mySTL
 		static size_type buffer_size() noexcept
 		{
 			return my_deque_chunk_size( sizeof(value_type) );
+		}
+
+		/**
+		 * Construye un elemento con el valor @a value en la posición @a position.
+		 * 
+		 * @param position	La posición donde se construye el nuevo elemento.
+		 * @param value		El valor del elemento por construir.
+		 */
+		void construct_element(pointer position, const value_type& value)
+		{
+			*position = value;
 		}
 
 		/**

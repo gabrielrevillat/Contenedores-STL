@@ -131,6 +131,18 @@ int testDeque()
 					<< ( (index < (deque_size - 1)) ? ", " : " ]\n" );
 	std::cout << '\n';
 
+	std::cout << "Prueba del metodo push_back:\n";
+
+	mySTL::deque<int> deque15;
+
+	for (unsigned num = 0; num < 10; ++num)
+		deque15.push_back(num);
+
+	std::cout << "deque15: ";
+	print_deque(deque15);
+
+	std::cout << '\n';
+
 	std::cout << "Funciona chingadaaaaa\n";
 
 	return 0;
