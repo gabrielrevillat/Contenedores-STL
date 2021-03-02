@@ -751,12 +751,13 @@ namespace mySTL
 		void emplace_back(Args&&... args)
 		{
 			// Si queda espacio en el último fragmento de memoria
+			// (Para al menos dos elementos)
 			if (this->finish.current != this->finish.last - 1)
 			{
 				// Construir el nuevo elemento en la posición siguiente a la
 				// del último elemento. 
 				this->construct_element(this->finish.current, std::forward<Args>(args)...);
-				// Incrementar el iterador para que siga apuntando a
+				// Incrementar el iterador finish para que siga apuntando a
 				// la posición siguiente a la del último elemento.
 				++this->finish.current;
 			}
@@ -770,7 +771,7 @@ namespace mySTL
 				// Construir el nuevo elemento en la última posición
 				// del último fragmento viejo.
 				this->construct_element(this->finish.current, std::forward<Args>(args)...);
-				// Reajustar el iterador para que apunte al nuevo último nodo.
+				// Reajustar el iterador finish para que apunte al nuevo último nodo.
 				this->finish.set_node(this->finish.node + 1);
 				this->finish.current = this->finish.first;
 			}
@@ -805,13 +806,14 @@ namespace mySTL
 		void emplace_front(Args&&... args)
 		{
 			// Si queda espacio al inicio del primer fragmento de memoria
+			// (Para al menos un elemento)
 			if (this->start.current != this->start.first)
 			{
 				// Construir el nuevo elemento en la posición anterior a la
 				// del primer elemento.
 				this->construct_element(this->start.current - 1,
 					std::forward<Args>(args)...);
-				// Disminuir el iterador para que siga apuntando a
+				// Disminuir el iterador start para que siga apuntando a
 				// la posición del primer elemento.
 				--this->start.current;
 			}
@@ -822,12 +824,41 @@ namespace mySTL
 				// Crear un nuevo nodo antes del primero
 				// e inicializarlo con un nuevo fragmento/buffer.
 				*(this->start.node - 1) = new value_type[ buffer_size() ];
-				// Reajustar el iterador para que apunte al nuevo primer nodo.
+				// Reajustar el iterador start para que apunte al nuevo primer nodo.
 				this->start.set_node(this->start.node - 1);
 				this->start.current = this->start.last - 1;
 				// Construir el nuevo elemento en la última posición
 				// del nuevo primer fragmento.
 				this->construct_element(this->start.current, std::forward<Args>(args)...);
+			}
+		}
+
+		/**
+		 * Elimina el último elemento del contenedor y reduce su tamaño.
+		 */
+		void pop_back()
+		{
+			// Si el úlitmo fragmento de memoria contiene al menos un elemento
+			if (this->finish.current != this->finish.first)
+			{
+				// Disminuir el iterador finish para que apunte
+				// al elemento que se quiere eliminar.
+				// (Ya que finish siempre apunta al elemento 
+				// *siguiente al último* del contenedor).
+				--this->finish.current;
+				// Destruir el elemento.
+				delete this->finish.current;
+			}
+			else // De lo contrario
+			{
+				// Destruir el último fragmento de memoria.
+				delete [] this->finish.first;
+				// Reajustar el iterador finish para que apunte al
+				// nodo anterior.
+				this->finish.set_node(this->finish.node - 1);
+				this->finish.current = this->finish.last - 1;
+				// Destruir el elemento.
+				delete this->finish.current;
 			}
 		}
 

@@ -1124,6 +1124,22 @@ void push_front(const value_type& value);
 void push_front(value_type&& value);
 ```
 
+3. #### pop_back
+
+**Elimina el último elemento.**
+
+Elimina el último elemento del contenedor y reduce eficazmente su tamaño en uno.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Nada.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+void pop_back();
+```
+
 7. #### swap
 
 **Intercambia contenido.**
@@ -1156,6 +1172,14 @@ El contenido de *value* se copia o se mueve al nuevo elemento.
 
 Este método incrementa eficazmente en uno el tamaño del contenedor.
 
+Para insertar un elemento, este método verifica que el primer elemento del contenedor
+no se encuentra en la primera posición del primer fragmento de memoria
+(Para esto, start.current, que apunta al primer elemento del contenedor, no debe
+estar apuntando a start.first, que es la primera posición del primer fragmento de memoria).
+De lo contrario, crea un nuevo nodo antes del primero y lo inicializa
+con un nuevo fragmento de memoria, conecta ese fragmento con el primer fragmento de memoria
+viejo e inserta el elemento en la última posición de ese nuevo fragmento.
+
 * **Parámetros**:
     * *args*: Argumentos que se "reenvían" (`std::forward`) para construir el nuevo elemento.
 * **Retorna**: Nada.
@@ -1179,8 +1203,8 @@ Este método incrementa eficazmente en uno el tamaño del contenedor.
 
 Para insertar un elemento, este método verifica que el último elemento del contenedor
 no se encuentra en las últimas dos posiciones del último fragmento de memoria
-(Para esto, finish.current, que es el elemento siguiente al último del contenedor,
-no debe estar apuntando a finish.last - 1, que es la última posición del fragmento de
+(Para esto, finish.current, que apunta al elemento siguiente al último del contenedor,
+no debe estar apuntando a finish.last - 1, que es la última posición del´último fragmento de
 memoria). De lo contrario, crea un nuevo nodo después del último y lo inicializa
 con un nuevo fragmento de memoria, inserta el elemento en la última posición del último
 fragmento de memoria y conecta ese fragmento con el nuevo.
