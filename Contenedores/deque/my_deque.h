@@ -753,7 +753,8 @@ namespace mySTL
 			// Si queda espacio en el último fragmento de memoria
 			if (this->finish.current != this->finish.last - 1)
 			{
-				// Construir el nuevo elemento en la última posición. 
+				// Construir el nuevo elemento en la posición siguiente a la
+				// del último elemento. 
 				this->construct_element(this->finish.current, std::forward<Args>(args)...);
 				// Incrementar el iterador para que siga apuntando a
 				// la posición siguiente a la del último elemento.
@@ -763,14 +764,70 @@ namespace mySTL
 			{
 				// Reservar espacio al final del mapa
 				this->reserve_map_at_back();
-				// Crear un nuevo nodo al final
+				// Crear un nuevo nodo después del último
 				// e inicializarlo con un nuevo fragmento/buffer.
 				*(this->finish.node + 1) = new value_type[ buffer_size() ];
-				// Construir el nuevo elemento en la última posición del último fragmento.
+				// Construir el nuevo elemento en la última posición
+				// del último fragmento viejo.
 				this->construct_element(this->finish.current, std::forward<Args>(args)...);
-				// Incrementar el iterador para que apunte al nuevo nodo.
+				// Reajustar el iterador para que apunte al nuevo último nodo.
 				this->finish.set_node(this->finish.node + 1);
 				this->finish.current = this->finish.first;
+			}
+		}
+
+		/**
+		* Agrega un nuevo elemento al inicio del contenedor y aumenta su tamaño.
+		* 
+		* @param value El valor del elemento por agregar al contenedor.
+		*/
+		void push_front(const value_type& value)
+		{
+			this->emplace_front(value);
+		}
+
+		/**
+		* Agrega un nuevo elemento al inicio del contenedor y aumenta su tamaño.
+		* 
+		* @param value El valor del elemento por agregar al contenedor.
+		*/
+		void push_front(value_type&& value)
+		{
+			this->emplace_front(std::forward<value_type>(value));
+		}
+
+		/**
+		* Construye e inserta un elemento al principio del contenedor.
+		* 
+		* @param args  Argumentos para construir el nuevo elemento.
+		*/
+		template <typename... Args>
+		void emplace_front(Args&&... args)
+		{
+			// Si queda espacio al inicio del primer fragmento de memoria
+			if (this->start.current != this->start.first)
+			{
+				// Construir el nuevo elemento en la posición anterior a la
+				// del primer elemento.
+				this->construct_element(this->start.current - 1,
+					std::forward<Args>(args)...);
+				// Disminuir el iterador para que siga apuntando a
+				// la posición del primer elemento.
+				--this->start.current;
+			}
+			else // De lo contrario
+			{
+				// Reservar espacio al inicio del mapa
+				this->reserve_map_at_front();
+				// Crear un nuevo nodo antes del primero
+				// e inicializarlo con un nuevo fragmento/buffer.
+				*(this->start.node - 1) = new value_type[ buffer_size() ];
+				// Reajustar el iterador para que apunte al nuevo primer nodo.
+				this->start.set_node(this->start.node - 1);
+				this->start.current = this->start.last - 1;
+				// Construir el nuevo elemento en la última posición
+				// del nuevo primer fragmento.
+				this->construct_element(this->start.current, std::forward<Args>(args)...);
 			}
 		}
 

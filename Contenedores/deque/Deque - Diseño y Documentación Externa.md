@@ -1103,6 +1103,27 @@ void push_back(const value_type& value);
 void push_back(value_type&& value);
 ```
 
+2. #### push_front
+
+**Inserta un elemento al principio.**
+
+Inserta un nuevo elemento al principio del *deque*, antes de su primer elemento actual.
+El contenido de *value* se copia o se mueve al nuevo elemento.
+
+Este método incrementa eficazmente en uno el tamaño del contenedor.
+
+* **Parámetros**:
+    * *value*: El valor del elemento por agregar al contenedor.
+* **Retorna**: Nada.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+void push_front(const value_type& value);
+void push_front(value_type&& value);
+```
+
 7. #### swap
 
 **Intercambia contenido.**
@@ -1126,11 +1147,32 @@ Este método llama a `std::swap` para intercambiar los atributos privados del *de
 void swap(deque& other);
 ```
 
+10. #### emplace_front
+
+**Construye e inserta un elemento al principio.**
+
+Inserta un nuevo elemento al principio del *deque*, antes de su primer elemento actual.
+El contenido de *value* se copia o se mueve al nuevo elemento.
+
+Este método incrementa eficazmente en uno el tamaño del contenedor.
+
+* **Parámetros**:
+    * *args*: Argumentos que se "reenvían" (`std::forward`) para construir el nuevo elemento.
+* **Retorna**: Nada.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+template <typename... Args>
+    void emplace_front(Args&&... args);
+```
+
 11. #### emplace_back
 
 **Construye e inserta un elemento al final.**
 
-Agrega un nuevo elemento al final del *vector*, después de su último elemento actual.
+Agrega un nuevo elemento al final del *deque*, después de su último elemento actual.
 Este elemento utiliza *args* como los argumentos para su construcción.
 
 Este método incrementa eficazmente en uno el tamaño del contenedor.
