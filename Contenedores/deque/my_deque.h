@@ -863,6 +863,34 @@ namespace mySTL
 		}
 
 		/**
+		* Elimina el primer elemento del contenedor y reduce su tamaño.
+		*/
+		void pop_front()
+		{
+			// Si el primer fragmento de memoria contiene al menos dos elementos
+			if (this->start.current != this->start.last - 1)
+			{
+				// Destruir el primer elemento.
+				delete this->start.current;
+				// Incrementar el iterador start para que apunte
+				// al elemento siguiente al eliminado.
+				++this->start.current;
+			}
+			else // De lo contrario
+			{
+				// Destruir el primer y único elemento
+				// del primer fragmento de memoria.
+				delete this->start.current;
+				// Destruir el fragmento de memoria.
+				delete [] this->start.first;
+				// Reajustar el iterador first para que apunte al
+				// nodo siguiente.
+				this->start.set_node(this->start.node + 1);
+				this->start.current = this->start.first;
+			}
+		}
+
+		/**
 		 * Intercambia el contenido de este objeto por el contenido de @a other.
 		 * 
 		 * @param other Otro objeto deque del mismo tipo, para intercambiar sus elementos.

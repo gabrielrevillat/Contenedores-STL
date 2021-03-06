@@ -1140,6 +1140,22 @@ Elimina el último elemento del contenedor y reduce eficazmente su tamaño en uno.
 void pop_back();
 ```
 
+4. #### pop_front
+
+**Elimina el primer elemento.**
+
+Elimina el primer elemento del contenedor y reduce eficazmente su tamaño en uno.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Nada.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+void pop_front();
+```
+
 7. #### swap
 
 **Intercambia contenido.**
