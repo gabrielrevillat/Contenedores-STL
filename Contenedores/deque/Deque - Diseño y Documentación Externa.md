@@ -97,7 +97,7 @@ Los métodos privados del contenedor son los que se encargan principalmente de:
 
 La implementación de estos métodos está basada casi en su totalidad en la implementación de `libstdc++`.
 Una explicación detallada de cada método se puede encontrar en el apartado 
-[Link](https://github.com/gabrielrevillat/Contenedores-STL/blob/main/Contenedores/deque/Deque%20-%20Dise%C3%B1o%20y%20Documentaci%C3%B3n%20Externa.md#m%C3%A9todos-privados "Métodos privados").
+[Métodos privados](https://github.com/gabrielrevillat/Contenedores-STL/blob/main/Contenedores/deque/Deque%20-%20Dise%C3%B1o%20y%20Documentaci%C3%B3n%20Externa.md#m%C3%A9todos-privados "Métodos privados del contenedor").
 
 ## Documentación del `deque::iterator`
 
