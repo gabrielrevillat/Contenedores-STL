@@ -96,7 +96,8 @@ Los métodos privados del contenedor son los que se encargan principalmente de:
 * Agregar elementos al inicio o al final del contenedor.
 
 La implementación de estos métodos está basada casi en su totalidad en la implementación de `libstdc++`.
-Una explicación detallada de cada método se puede encontrar en el apartado *Métodos privados*.
+Una explicación detallada de cada método se puede encontrar en el apartado 
+[Link](https://github.com/gabrielrevillat/Contenedores-STL/blob/main/Contenedores/deque/Deque%20-%20Dise%C3%B1o%20y%20Documentaci%C3%B3n%20Externa.md#m%C3%A9todos-privados "Métodos privados").
 
 ## Documentación del `deque::iterator`
 
@@ -398,7 +399,7 @@ elementos hay entre cada uno.
 
 ## Atributos privados
 
-* *map*: Arreglo de punteros a fragmentos de memoria que almacenan elementos.
+* *map*: Arreglo de punteros (nodos) a fragmentos de memoria que almacenan elementos.
 * *map_size*: El número de nodos a los que apunta *map*. Esta cantidad es de al menos 8.
 * *start*: Iterador que apunta al primer elemento del contenedor.
 * *finish*: Iterador que apunta al elemento siguiente al último del contenedor.
@@ -1024,6 +1025,7 @@ Si el objeto *deque* es const, el método retorna una `const_reference`. De lo co
 ```C++
 reference operator[](size_type index);
 const_reference operator[](size_type index) const;
+```
 
 2. #### at
 
@@ -1087,8 +1089,6 @@ el método retorna una `const_reference`. De lo contrario, retrona una `reference
 reference back();
 const_reference back() const;
 ```
-
-### Modificadores
 
 ### Modificadores
 
@@ -1200,8 +1200,8 @@ Este método incrementa eficazmente en uno el tamaño del contenedor.
 
 Para insertar un elemento, este método verifica que el primer elemento del contenedor
 no se encuentra en la primera posición del primer fragmento de memoria
-(Para esto, start.current, que apunta al primer elemento del contenedor, no debe
-estar apuntando a start.first, que es la primera posición del primer fragmento de memoria).
+(Para esto, `start.current`, que apunta al primer elemento del contenedor, no debe
+estar apuntando a `start.first`, que es la primera posición del primer fragmento de memoria).
 De lo contrario, crea un nuevo nodo antes del primero y lo inicializa
 con un nuevo fragmento de memoria, conecta ese fragmento con el primer fragmento de memoria
 viejo e inserta el elemento en la última posición de ese nuevo fragmento.
@@ -1229,8 +1229,8 @@ Este método incrementa eficazmente en uno el tamaño del contenedor.
 
 Para insertar un elemento, este método verifica que el último elemento del contenedor
 no se encuentra en las últimas dos posiciones del último fragmento de memoria
-(Para esto, finish.current, que apunta al elemento siguiente al último del contenedor,
-no debe estar apuntando a finish.last - 1, que es la última posición del´último fragmento de
+(Para esto, `finish.current`, que apunta al elemento siguiente al último del contenedor,
+no debe estar apuntando a `finish.last - 1`, que es la última posición del´último fragmento de
 memoria). De lo contrario, crea un nuevo nodo después del último y lo inicializa
 con un nuevo fragmento de memoria, inserta el elemento en la última posición del último
 fragmento de memoria y conecta ese fragmento con el nuevo.
