@@ -57,27 +57,31 @@ cada fragmento tendrá capacidad para solo un elemento.
 
 El contenedor debe ser capaz de proporcionar el acceso a cualquiera de sus elementos en tiempo constante y mediante iteradores.
 Se debe entonces implementar un iterador especial que conecte los fragmentos de memoria y permita ese acceso correctamente.
-El contenedor principal tendrá un arreglo de punteros, cada puntero apuntará a un fragmento de memoria y los iteradores serán
+El contenedor principal tendrá un arreglo de punteros llamado **mapa**, cada puntero apuntará a un fragmento de memoria y los iteradores serán
 capaces de "saltar" entre esos fragmentos para tener acceso a todos los elementos. Los punteros a fragmentos de memoria
 son llamados **nodos**.
 
-Cada iterador va a contener tres punteros: Uno apuntará a un elemento específico en un fragmento de memoria (el elemento al
-que se está apuntando actualmente), y los otros apuntarán al inicio y al final del fragmento. También tendrá un puntero a punteros
-que apunte al nodo que apunta directamente a un fragmento de memoria específico.
+Cada iterador va a contener tres punteros: Uno (`current`) apuntará a un elemento específico en un fragmento de memoria
+(el elemento al que se está apuntando actualmente), y los otros (`first` y `last`) apuntarán al inicio y al final del
+fragmento, respectivamente. También tendrá un puntero a punteros (`node`) que apunte al nodo que apunta directamente
+a un fragmento de memoria específico.
 
 ![Ejemplo de diseño del iterador para el *deque* y los atributos que contiene.](https://user-images.githubusercontent.com/64336377/105266781-ec050880-5b56-11eb-8127-3225299d80f1.png "Diseño del deque_iterator")
 Diseño que muestra cómo sería un iterador del contenedor *deque* y hacia dónde apuntarían sus atributos.
 
-El ejemplo anterior presenta un arreglo de punteros llamado *map*, los punteros de este arreglo apuntan hacia
-los fragmentos de memoria que contienen los elementos. En la imagen, cada puntero está apuntando a un fragmento, aunque
-podría presentarse el caso donde algunos punteros cercanos a los extremos no apunten a ningún fragmento de memoria hasta que
-sea necesario, por la cantidad de elementos. Si cada puntero apunta a un fragmento lleno y se necesita más espacio, se crea
-un contenedor con más espacio y se reasignan los punteros.
+El ejemplo anterior presenta un arreglo de punteros llamado `map`, los punteros de este arreglo apuntan hacia
+los fragmentos de memoria que contienen los elementos. En la imagen, cada nodo está apuntando a un fragmento, aunque
+podría presentarse el caso donde algunos nodos cercanos a los extremos no apunten a ningún fragmento de memoria hasta que
+sea necesario, por la cantidad de elementos. Si cada nodo apunta a un fragmento lleno y se necesita más espacio, se crea
+un mapa con más espacio y se reasignan los punteros. Preferiblemente, el mapa debería tener un nodo vacío en cada extremo.
 
-El *deque* va a contener dos iteradores en sus atributos: El primero, con su puntero `first` apunta al inicio del primer
-fragmento de memoria donde hay elementos y con su puntero `current` apunta directamente al primer elemento de ese fragmento.
-El segundo iterador apunta con su puntero `first` al inicio del último fragmento de memoria donde hay elementos y con
-su puntero `current` apunta directamente al elemento siguiente al último de ese fragmento.
+El *deque* va a contener dos iteradores en sus atributos: El primer iterador (`start`),
+con su puntero `first` apunta al inicio del primer fragmento de memoria donde hay elementos, 
+con su puntero `current` apunta directamente al primer elemento de ese fragmento y
+con su puntero `last` apunta al final de ese fragmento (después de la última posición).
+El segundo iterador (`finish`) apunta con su puntero `first` al inicio del último fragmento de memoria
+donde hay elementos, con su puntero `current` apunta directamente al elemento siguiente al último de ese fragmento
+y con su puntero `last` apunta al final de ese fragmento.
 
 ![Representación de los dos iteradores que va a tener internamente el *deque*.](https://user-images.githubusercontent.com/64336377/105269247-2b345900-5b59-11eb-8931-374882561b61.png "Atributos privados del deque")
 Representación de los dos iteradores que va a tener internamente el contenedor y los elementos a los que apuntan los atributos de cada iterador (ft. despiche de flechas xd).
@@ -96,7 +100,7 @@ Una explicación detallada de cada método se puede encontrar en el apartado *Méto
 
 ## Documentación del `deque::iterator`
 
-Antes de empezar a documentar e implementar el *deque*, es necesario diseñar correctamente un `struct` que sirva 
+Antes de empezar a documentar e implementar el *deque*, es necesario diseñar correctamente un registro (`struct`) que sirva 
 para el manejo de los elementos en los fragmentos de memoria.
 
 ### Tipos miembro
@@ -113,12 +117,14 @@ para el manejo de los elementos en los fragmentos de memoria.
 | `iterator`			| `my_deque_iterator<value_type>`			|
 | `self`				| `my_deque_iterator`						|
 
+`std::random_access_iterator_tag` sirve para identificar al `struct` como un iterador de acceso aleatorio.
+
 ### Atributos
 
 * *current*: Puntero a un elemento específico en el fragmento de memoria actual.
 * *first*: Puntero al primer elemento del fragmento de memoria actual.
 * *last*: Puntero al elemento siguiente al último del fragmento de memoria actual.
-* *node*: Puntero al nodo del arreglo que apunta al fragmento de memoria.
+* *node*: Puntero al nodo del mapa que apunta al fragmento de memoria.
 
 ### Funciones 
 
@@ -249,27 +255,31 @@ anterior o siguiente según el caso, y `current` debe apuntar al elemento corresp
 	* *count*: El número de espacios de desplazamiento.
 * **Retorna**: `*this`
 * **Complejidad**: Constante.
-* **Pseudocódigo**:
+* **Algoritmo**:
 
 ```
-FUNCTION operator+=(count)
-	new_position <- count + (current - first)
+Proceso operator+=(count)
+	Calcular la nueva posición a la que va a apuntar el iterador como count + (current - first).
 
-	IF new_position >= 0 AND new_position < buffer_size() THEN
-		current <- current + count
-	ELSE
-		IF new_position > 0 THEN
+	Si la nueva posición se encuentra dentro de los límites del fragmento:
+		Desplazar current hacia la nueva posición del fragmento: current <- current + count.
+	De lo contrario:
+		Si la nueva posición es mayor a 0 (nos queremos mover hacia la derecha):
+			Calcular cuántos fragmentos hacia la derecha debe moverse el puntero a nodo:
 			node_offset <- new_position / buffer_size()
-		ELSE
+		De lo contrario:
+			Calcular cuántos fragmentos hacia la izquierda debe moverse el puntero a nodo:
 			node_offset <- -( (-offset - 1) / buffer_size() ) - 1
-		END-IF
+		Fin-Si.
 
-		CALL set_node(node + node_offset)
+		Desplazar el puntero a nodo al fragmento correspondiente:
+		set_node(node + node_offset)
+		Hacer que current apunte a la posición específica de ese fragmento:
 		current <- first + (new_position - node_offset * buffer_size())
-	END-IF
+	Fin-Si.
 
-	RETURN *this
-END operator+=
+	Retornar *this
+Fin-Proceso
 ```
 
 * **Declaración**:
@@ -352,8 +362,8 @@ Retorna el número de elementos entre `iterator1` y `iterator2`.
 ```C++
 template <typename ValueType>
 typename my_deque_iterator<ValueType>::difference_type
-		operator-(const my_deque_iterator<ValueType>& iterator1,
-			const my_deque_iterator<ValueType>& iterator2) noexcept;
+	operator-(const my_deque_iterator<ValueType>& iterator1,
+	          const my_deque_iterator<ValueType>& iterator2) noexcept;
 ```
 
 ![Representación y explicación de la resta entre iteradores.](https://user-images.githubusercontent.com/64336377/108461358-32c24d00-7240-11eb-8aa1-3a6c75249670.png "Resta entre iteradores")

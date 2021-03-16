@@ -166,18 +166,18 @@ namespace mySTL
 			}
 			else // De lo contrario
 			{
-				// Crear variable para calcular el desplazamiento del nodo.
+				// Crear variable para calcular el desplazamiento del puntero a nodo.
 				difference_type node_offset = 0;
 				// Si la nueva posición es mayor a 0
 				if (new_position > 0)
 				{
-					// El nodo se desplaza hacia la derecha.
+					// El puntero a nodo se desplaza hacia la derecha.
 					// Calcular cuántos fragmentos hacia la derecha debe moverse.
 					node_offset = new_position / difference_type( buffer_size() );
 				}
 				else // De lo contrario
 				{
-					// El nodo se desplaza hacia la izquierda.
+					// El puntero a nodo se desplaza hacia la izquierda.
 					// Calcular cuántos fragmentos hacia la izquierda debe moverse.
 					node_offset = -( (-new_position - 1) / difference_type( buffer_size() ) ) - 1;
 				}
