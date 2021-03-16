@@ -1240,6 +1240,28 @@ iterator insert(const_iterator position, std::initializer_list<value_type> init_
 más el número de elementos que estaban antes o después de *position* (elementos movidos).
 * **Excepciones**: No se lanzan excepciones.
 
+6. #### erase
+
+**Elimina elementos.**
+
+Elimina del *deque* ya sea un elemento o un rango de elementos.
+
+Este método reduce eficazmente el tamaño del contenedor en el número de elementos eliminados.
+
+* **Parámetros**:
+    * *position*: Iterador que apunta al único elemento por eliminar del *deque*.
+    * *first*, *last*: Iteradores que especifican el rango de elementos a eliminar.
+* **Retorna**: Un iterador que apunta a la nueva ubicación del elemento siguiente al último eliminado.
+* **Complejidad**: Lineal en el número de elementos que se eliminados más el número de elementos
+que estaban antes o después del último eliminado (elementos movidos).
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+iterator erase(const_iterator position);
+iterator erase(const_iterator first, const_iterator last);
+```
+
 7. #### swap
 
 **Intercambia contenido.**
