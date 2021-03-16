@@ -1166,6 +1166,80 @@ Elimina el primer elemento del contenedor y reduce eficazmente su tamaño en uno.
 void pop_front();
 ```
 
+5. #### insert
+
+**Inserta elementos.**
+
+Inserta nuevos elementos en el *deque* antes del elemento en *position* e incrementa eficazmente
+el tamaño del contenedor en el número de elementos insertados.
+
+Las colas de doble final están diseñadas para ser eficientes al insertar y eliminar elementos ya sea al final
+o al inicio de la secuencia. Las inserciones en otras posiciones normalmente son menos eficientes que en los contenedores
+*list* o *forward_list*.
+
+#### a) Único elemento
+
+Inserta el valor *value* en la posición *position*.
+
+* **Parámetros**:
+    * *position*: Posición del contenedor donde se inserta el nuevo elemento.
+    * *value*: El valor del elemento por insertar.
+* **Declaración**:
+
+```C++
+iterator insert(const_iterator position, const value_type& value);
+iterator insert(const_iterator position, value_type&& value);
+```
+
+#### b) Relleno
+
+Inserta *count* copias de *value* en la posición @a position.
+
+* **Parámetros**:
+    * *position*: Posición del contenedor donde se inserta el primero de los nuevos elementos.
+    * *count*: El número de elementos a insertar.
+    * *value*: El valor del elemento por insertar
+* **Declaración**:
+
+```C++
+iterator insert(const_iterator position, size_type count, const value_type& value);
+```
+
+#### c) Rango
+
+Inserta elementos en el rango [*first*, *last*) en la posición *position*.
+
+* **Parámetros**:
+    * *position*: Posición del contenedor donde se inserta el primero de los nuevos elementos. 
+    * *first*, *last*: Iteradores a las posiciones inicial y final en un rango.
+* **Declaración**:
+
+```C++
+template <typename InputIterator,
+    typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
+                typename std::iterator_traits<InputIterator>::iterator_category>>>>
+    iterator insert(const_iterator position, InputIterator first, InputIterator last);
+```
+
+#### d) Lista de inicialización
+
+Inserta cada uno de los elementos de *init_list* en la posición *position*.
+
+* **Parámetros**:
+    * *position*: Posición del contenedor donde se inserta el primero de los nuevos elementos. 
+    * *init_list*: Objeto initializer_list desde donde se insertan los nuevos elementos.
+* **Declaración**:
+
+```C++
+iterator insert(const_iterator position, std::initializer_list<value_type> init_list);
+```
+
+
+* **Retorna**: Un iterador que apunta al primero de los nuevos elementos insertados.
+* **Complejidad**: Lineal en el número de elementos que se insertan (construcción por copia o movimiento)
+más el número de elementos que estaban antes o después de *position* (elementos movidos).
+* **Excepciones**: No se lanzan excepciones.
+
 7. #### swap
 
 **Intercambia contenido.**
@@ -1187,6 +1261,31 @@ Este método llama a `std::swap` para intercambiar los atributos privados del *de
 
 ```C++
 void swap(deque& other);
+```
+
+9. #### emplace
+
+**Construye e inserta un elemento.**
+
+Inserta un nuevo elemento en *position*. Este elemento utiliza *args* como los argumentos para su construcción.
+
+Este método incrementa eficazmente el tamaño del contenedor en uno.
+
+Las colas de doble final están diseñadas para ser eficientes al insertar y eliminar elementos ya sea al final
+o al inicio de la secuencia. Las inserciones en otras posiciones normalmente son menos eficientes que en los contenedores
+*list* o *forward_list*.
+
+* **Parámetros**:
+	* *position*: Posición del contenedor donde se inserta el nuevo elemento.
+    * *args*: Argumentos que se "reenvían" (`std::forward`) para construir el nuevo elemento.
+* **Retorna**: Un iterador que apunta al nuevo elemento.
+* **Complejidad**: Lineal en el número de elementos entre *position* y el inicio o el final del contenedor.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+template <typename... Args>
+    iterator emplace(const_iterator position, Args&&... args);
 ```
 
 10. #### emplace_front
