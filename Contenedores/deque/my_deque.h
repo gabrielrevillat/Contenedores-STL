@@ -3,12 +3,12 @@
 
 #include "../algorithm/my_algorithm.h"
 
-#include <iterator>
 #include <cmath>
 #include <cstddef>
-#include <utility>
+#include <iterator>
 #include <stdexcept>
 #include <type_traits>
+#include <utility>
 
 namespace mySTL
 {
@@ -357,7 +357,7 @@ namespace mySTL
 	// Atributos privados
 	private:
 		map_pointer map;	// Arreglo de punteros a fragmentos de memoria que almacenan elementos.
-		size_type map_size;	// El número de punteros a los que apunta *map*. Esta cantidad es de al menos 8.
+		size_type map_size;	// El número de punteros a los que apunta el mapa. Esta cantidad es de al menos 8.
 		iterator start;		// Iterador que apunta al primer elemento del contenedor.
 		iterator finish;	// Iterador que apunta al elemento siguiente al último del contenedor.
 
@@ -433,8 +433,8 @@ namespace mySTL
 		 * @param first, last   Iteradores a las posiciones inicial y final en un rango.
 		 */
 		template <typename InputIterator,
-			typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
-				typename std::iterator_traits<InputIterator>::iterator_category>>>
+				  typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
+					typename std::iterator_traits<InputIterator>::iterator_category>>>
 		deque(InputIterator first, InputIterator last)
 			: map(nullptr)
 			, map_size(0)
@@ -508,10 +508,10 @@ namespace mySTL
 		}
 
 		/**
-		* Destructor.
-		*
-		* Destruye el objeto contenedor.
-		*/
+		 * Destructor.
+		 *
+		 * Destruye el objeto contenedor.
+		 */
 		~deque()
 		{
 			this->destroy_map_and_nodes();
@@ -554,6 +554,14 @@ namespace mySTL
 			return *this;
 		}
 
+		/**
+		 * Asignación por lista de inicialización. 
+		 * 
+		 * Reemplaza el contenido del contenedor por una copia de los elementos de @a init_list.
+		 * 
+		 * @param init_list Objeto initializer_list para reemplazar el contenido del contenendor.
+		 * @return *this.
+		 */
 		deque& operator=(std::initializer_list<value_type> init_list)
 		{
 			// Construir un deque con la lista de inicialización recibida.
@@ -588,8 +596,8 @@ namespace mySTL
 		 * en un rango.
 		 */
 		template <typename InputIterator,
-			typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
-				typename std::iterator_traits<InputIterator>::iterator_category>>>
+				  typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
+					typename std::iterator_traits<InputIterator>::iterator_category>>>
 		void assign(InputIterator first, InputIterator last)
 		{
 			auto temp_it_deque = deque(first, last);
@@ -693,15 +701,15 @@ namespace mySTL
 		}
 
 		/**
-		* Retorna una referencia al elemento en la posición @a index del contenedor. 
-		* 
-		* Este método verifica si @a index está dentro del límite de elementos
-		* válidos en el contenedor. Si no lo está, lanza una excepción.
-		* 
-		* @param index Posición de un elemento en el contenedor.
-		* @throw std::out_of_range
-		* @return El elemento en la posición especificada.
-		*/
+		 * Retorna una referencia al elemento en la posición @a index del contenedor. 
+		 * 
+		 * Este método verifica si @a index está dentro del límite de elementos
+		 * válidos en el contenedor. Si no lo está, lanza una excepción.
+		 * 
+		 * @param index Posición de un elemento en el contenedor.
+		 * @throw std::out_of_range
+		 * @return El elemento en la posición especificada.
+		 */
 		inline const_reference at(size_type index) const
 		{
 			if (index >= size())
@@ -733,10 +741,10 @@ namespace mySTL
 		}
 
 		/**
-		* Agrega un nuevo elemento al final del contenedor y aumenta su tamaño.
-		* 
-		* @param value El valor del elemento por agregar al contenedor.
-		*/
+		 * Agrega un nuevo elemento al final del contenedor y aumenta su tamaño.
+		 * 
+		 * @param value El valor del elemento por agregar al contenedor.
+		 */
 		void push_back(value_type&& value)
 		{
 			this->emplace_back(std::forward<value_type>(value));
@@ -778,30 +786,30 @@ namespace mySTL
 		}
 
 		/**
-		* Agrega un nuevo elemento al inicio del contenedor y aumenta su tamaño.
-		* 
-		* @param value El valor del elemento por agregar al contenedor.
-		*/
+		 * Agrega un nuevo elemento al inicio del contenedor y aumenta su tamaño.
+		 * 
+		 * @param value El valor del elemento por agregar al contenedor.
+		 */
 		void push_front(const value_type& value)
 		{
 			this->emplace_front(value);
 		}
 
 		/**
-		* Agrega un nuevo elemento al inicio del contenedor y aumenta su tamaño.
-		* 
-		* @param value El valor del elemento por agregar al contenedor.
-		*/
+		 * Agrega un nuevo elemento al inicio del contenedor y aumenta su tamaño.
+		 * 
+		 * @param value El valor del elemento por agregar al contenedor.
+		 */
 		void push_front(value_type&& value)
 		{
 			this->emplace_front(std::forward<value_type>(value));
 		}
 
 		/**
-		* Construye e inserta un elemento al principio del contenedor.
-		* 
-		* @param args  Argumentos para construir el nuevo elemento.
-		*/
+		 * Construye e inserta un elemento al principio del contenedor.
+		 * 
+		 * @param args  Argumentos para construir el nuevo elemento.
+		 */
 		template <typename... Args>
 		void emplace_front(Args&&... args)
 		{
@@ -863,8 +871,8 @@ namespace mySTL
 		}
 
 		/**
-		* Elimina el primer elemento del contenedor y reduce su tamaño.
-		*/
+		 * Elimina el primer elemento del contenedor y reduce su tamaño.
+		 */
 		void pop_front()
 		{
 			// Si el primer fragmento de memoria contiene al menos dos elementos
@@ -889,6 +897,8 @@ namespace mySTL
 				this->start.current = this->start.first;
 			}
 		}
+
+
 
 		/**
 		 * Intercambia el contenido de este objeto por el contenido de @a other.
@@ -976,7 +986,7 @@ namespace mySTL
 			// Destruir cada fragmento de memoria apuntado
 			// desde start hasta finish.
 			for (map_pointer current = this->start.node;
-				current < this->finish.node; ++current)
+				 current < this->finish.node; ++current)
 				delete [] *current;
 
 			delete [] this->map; // Destruir arreglo de nodos.
