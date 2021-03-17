@@ -898,7 +898,101 @@ namespace mySTL
 			}
 		}
 
+		/**
+		 * Inserta el valor @a value en la posición @a position. 
+		 * 
+		 * @param position   Posición del contenedor donde se inserta el nuevo elemento.
+		 * @param value      El valor del elemento por insertar.
+		 * @return iterador que apunta al elemento insertado.
+		 */
+		iterator insert(const_iterator position, const value_type& value)
+		{
+			return this->emplace(position, value);
+		}
 
+		/**
+		 * Inserta el valor @a value en la posición @a position. 
+		 * 
+		 * @param position   Posición del contenedor donde se inserta el nuevo elemento.
+		 * @param value      El valor del elemento por insertar.
+		 * @return iterador que apunta al elemento insertado.
+		 */
+		iterator insert(const_iterator position, value_type&& value)
+		{
+			return this->emplace(position, std::forward<value_type>(value));
+		}
+
+		/**
+		 * Inserta un nuevo elemento en la posición @a position. Este elemento es 
+		 * construido usando @a args como argumento para su construcción.
+		 * 
+		 * @param position   La posición del contenedor donde se inserta el nuevo elemento.
+		 * @param args       Argumentos para construir el nuevo elemento.
+		 * @return iterador que apunta al nuevo elemento.
+		 */
+		template <typename... Args>
+		iterator emplace(const_iterator position, Args&&... args)
+		{
+			// Iterador que apunta a la posición de inserción. (No const)
+			iterator result;
+
+			// Si se quiere insertar al inicio
+			if (position.current == this->start.current)
+			{
+				// Llamar al método correspondiente.
+				this->emplace_front(std::forward<Args>(args)...);
+				result = begin();
+			}
+			// De lo contrario, si se quiere insertar al final
+			else if (position.current == this->finish.current)
+			{
+				this->emplace_back(std::forward<Args>(args)...);
+				result = end() - 1;
+			}
+			// De lo contrario
+			else
+			{
+				// El índice donde se inserta el nuevo elemento es la distancia entre
+				// begin() (el iterador que apunta al inicio) y
+				// position (el iterador que apunta a la posición).
+				difference_type index = position - begin();
+
+				// Si la posición de inserción es más cercana al inicio del contenedor
+				if (index < (size() / 2))
+				{
+					// Hacer una copia del primer elemento e insertarlo
+					// al inicio del contenedor.
+					this->push_front(front());
+
+					// Ahora el valor del primer elemento se encuentra tanto en la 
+					// primera como en la segunda posición del contenedor.
+
+					// Copiar los elementos que están entre la tercera posición
+					// y la posición de inserción, a su posición anterior.
+					result = begin() + index;
+					mySTL::copy(begin() + 2, result + 1, begin() + 1);
+				}
+				else // De lo contrario
+				{
+					// Hacer una copia del último elemento e insertarlo
+					// al final del contenedor.
+					this->push_back(back());
+
+					// Ahora el valor del último elemento se encuentra 
+					// en las últimas dos posiciones del contenedor.
+
+					// Copiar los elementos que están entre la posición de 
+					// inserción y la última posición - 2, a su posición siguiente.
+					result = begin() + index;
+					mySTL::copy_backward(result, end() - 2, end() - 1);
+				}
+				// Construir el nuevo elemento con los argumentos recibidos,
+				// en la posición de inserción.
+				*result = value_type(std::forward<Args>(args)...);
+			}
+
+			return result;
+		}
 
 		/**
 		 * Intercambia el contenido de este objeto por el contenido de @a other.

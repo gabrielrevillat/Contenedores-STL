@@ -143,10 +143,29 @@ int testDeque()
 
 	std::cout << "deque15: ";
 	print_deque(deque15);
+	std::cout << '\n';
+
+	std::cout << "Prueba de los metodos pop_back y pop_front:\n";
+
+	deque15.pop_back();
+	deque15.pop_front();
+
+	std::cout << "deque15: ";
+	print_deque(deque15);
+	std::cout << '\n';
+
+	std::cout << "Prueba de los metodos insert:\n";
+
+	mySTL::deque<int> deque16 = { 1, 2, 3, 4, 5 };
+
+	deque16.insert(deque16.begin() + 1, 100); // [ 1, 100, 2, 3, 4, 5 ]
+
+	std::cout << "deque16: ";
+	print_deque(deque16);
 
 	std::cout << '\n';
 
-	std::cout << "Funciona chingadaaaaa\n";
+	std::cout << "Bien. xd\n";
 
 	return 0;
 }
