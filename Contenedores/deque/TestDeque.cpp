@@ -158,7 +158,20 @@ int testDeque()
 
 	mySTL::deque<int> deque16 = { 1, 2, 3, 4, 5 };
 
+	std::cout << "Un elemento:\n";
 	deque16.insert(deque16.begin() + 1, 100); // [ 1, 100, 2, 3, 4, 5 ]
+
+	std::cout << "deque16: ";
+	print_deque(deque16);
+
+	std::cout << "Con 500 elementos:\n";
+	deque16.insert(deque16.begin() + 3, 500, 25); // [ 1, 100, 2, 25 (x500), 3, 4, 5 ]
+
+	std::cout << "deque16: ";
+	print_deque(deque16);
+
+	std::cout << "Otros 100 elementos:\n";
+	deque16.insert(deque16.begin() + 505, 100, 50); // [ 1, 100, 2, 25 (x500), 3, 4, 50 (x100), 5 ]
 
 	std::cout << "deque16: ";
 	print_deque(deque16);

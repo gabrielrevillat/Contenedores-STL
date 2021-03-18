@@ -37,9 +37,10 @@ namespace mySTL
 	 * @param first		Iterador a la posición inicial de la secuencia por copiar.
 	 * @param last		Iterador a la posición final de la secuencia por copiar.
 	 * @param result	Iterador a la posición inicial de la secuencia destino.
+	 * @return Iterador al final del rango destino donde se copiaron los elementos.
 	 */
 	template <typename InputIterator, typename OutputIterator>
-	void copy(InputIterator first, InputIterator last, OutputIterator result)
+	OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result)
 	{
 		// Mientras no se haya alcanzado el final del rango
 		while (first != last)
@@ -50,6 +51,7 @@ namespace mySTL
 			++first;
 			++result;
 		}
+		return result;
 	}
 
 	/**
