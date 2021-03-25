@@ -1136,9 +1136,16 @@ namespace mySTL
 			return result;
 		}
 
+		/**
+		 * Inserta elementos en el rango [@a first, @a last) en la posición @a position. 
+		 * 
+		 * @param position      La posición del contenedor donde se inserta el primero de los nuevos elementos.
+		 * @param first, last   El rango de copia de los elementos a insertar.
+		 * @return iterador que apunta al primero de los nuevos elementos insertados.
+		 */
 		template <typename InputIterator,
-				  typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
-					typename std::iterator_traits<InputIterator>::iterator_category>>>
+			typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
+				typename std::iterator_traits<InputIterator>::iterator_category>>>
 		iterator insert(const_iterator position, InputIterator first, InputIterator last)
 		{
 			iterator result;
@@ -1210,7 +1217,7 @@ namespace mySTL
 							iterator end_of_range = mySTL::copy(this->start, result, new_start);
 							// Copiar los elementos del rango [first, last) al contenedor
 							// desde su posición correspondiente.
-							iterator range_mid = first + (count - elements_before_pos);
+							InputIterator range_mid = first + (count - elements_before_pos);
 							mySTL::copy(first, range_mid, end_of_range);
 							// Actualizar el inicio de la secuencia.
 							this->start = new_start;
@@ -1253,7 +1260,7 @@ namespace mySTL
 							// Copiar los elementos de [first, last) que no caben 
 							// entre la posición de  inserción y el final,
 							// al final del contenedor.
-							iterator range_mid = first + elements_after_pos;
+							InputIterator range_mid = first + elements_after_pos;
 							iterator end_of_range = mySTL::copy(range_mid, last, this->finish);
 							// Copiar los elementos que están entre la posición de
 							// inserción y el final, a la posición después de los nuevos
@@ -1270,6 +1277,18 @@ namespace mySTL
 			}
 
 			return result;
+		}
+
+		/**
+		 * Inserta cada uno de los elementos de @a init_list en la posición @a position. 
+		 * 
+		 * @param position  La posición del contenedor donde se inserta el primero de los nuevos elementos.
+		 * @param init_list Objeto initializer_list desde donde se insertan los nuevos elementos.
+		 * @return iterador que apunta al primero de los nuevos elementos insertados.
+		 */
+		iterator insert(const_iterator position, std::initializer_list<value_type> init_list)
+		{
+			return this->insert(position, init_list.begin(), init_list.end());
 		}
 
 		/**

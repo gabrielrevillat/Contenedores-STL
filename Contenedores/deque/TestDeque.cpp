@@ -154,6 +154,8 @@ int testDeque()
 	print_deque(deque15);
 	std::cout << '\n';
 
+	std::cout << "-----Alerta de SPAM en la pantalla-----\n\n";
+
 	std::cout << "Prueba de los metodos insert:\n";
 
 	mySTL::deque<int> deque16 = { 1, 2, 3, 4, 5 };
@@ -190,9 +192,16 @@ int testDeque()
 	std::cout << "deque16: ";
 	print_deque(deque16);
 
-	std::cout << '\n';
+	std::cout << "Con initializer_list:\n";
+	deque16.insert(deque16.begin() + (deque16.size() / 2), { 40, 70, 80 });
 
-	std::cout << "Bien. xd\n";
+	std::cout << "deque16: ";
+	print_deque(deque16);
+
+	std::cout << '\n';
+	std::cout << "-----Fin del SPAM, gracias por su atencion. xd-----\n\n";
+
+	std::cout << '\n';
 
 	return 0;
 }
