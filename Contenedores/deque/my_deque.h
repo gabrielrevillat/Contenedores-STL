@@ -1006,125 +1006,269 @@ namespace mySTL
 		{
 			iterator result;
 
-			// Si los elementos se quieren insertar al inicio
-			if (position.current == this->start.current)
+			if (count == 0)
 			{
-				// Reservar espacio para count elementos al inicio del contenedor
-				// y guardar el nuevo inicio de la secuencia.
-				iterator new_start = this->reserve_elements_at_front(count);
-				// Llenar con el valor value los espacios entre el nuevo inicio
-				// y el inicio viejo.
-				mySTL::fill(new_start, this->start, value);
-				// Actualizar el inicio de la secuencia.
-				result = this->start = new_start;
+				result = position;
 			}
-			// De lo contrario, si se quieren insertar al final
-			else if (position.current == this->finish.current)
-			{
-				// Reservar espacio para count elementos al final del contenedor
-				// y guardar el nuevo final de la secuencia.
-				iterator new_finish = this->reserve_elements_at_back(count);
-				// Llenar con el valor value los espacios entre el final viejo
-				// y el final nuevo.
-				mySTL::fill(this->finish, new_finish, value);
-				result = this->finish;
-				// Actualizar el final de la secuencia.
-				this->finish = new_finish;
-			}
-			// De lo contrario
 			else
 			{
-				// Número de elementos que se encuentran entre
-				// el inicio del contenedor y la posición de inserción.
-				difference_type elements_before_pos = position - begin();
-
-				// Si la posición de inserción es más cercana al inicio del contenedor
-				if (elements_before_pos < (size() / 2))
+				// Si los elementos se quieren insertar al inicio
+				if (position.current == this->start.current)
 				{
 					// Reservar espacio para count elementos al inicio del contenedor
 					// y guardar el nuevo inicio de la secuencia.
 					iterator new_start = this->reserve_elements_at_front(count);
-					// Guardar el inicio viejo de la secuencia.
-					iterator old_start = this->start;
-					result = this->start + elements_before_pos;
-
-					// Si entre el inicio y la posición de inserción hay espacio 
-					// suficiente para count elementos
-					if (elements_before_pos >= count)
-					{
-						// Copiar los primeros count elementos del contenedor al
-						// nuevo inicio.
-						iterator last_of_first_elements = this->start + count;
-						mySTL::copy(this->start, last_of_first_elements, new_start);
-						// Actualizar el inicio de la secuencia.
-						this->start = new_start;
-						// Copiar los elementos restantes al viejo inicio.
-						mySTL::copy(last_of_first_elements, result, old_start);
-						// Llenar con value los espacios restantes correspondientes.
-						mySTL::fill(result - count, result, value);
-					}
-					else // De lo contrario
-					{
-						// Copiar los elementos entre el viejo inicio y la posición
-						// de inserción, al nuevo inicio.
-						iterator end_of_range = mySTL::copy(this->start, result, new_start);
-						// Llenar con value los espacios restantes hasta el viejo inicio.
-						mySTL::fill(end_of_range, this->start, value);
-						// Actualizar el inicio de la secuencia.
-						this->start = new_start;
-						// Llenar con value los espacios restantes desde el viejo inicio
-						// hasta la posición de inserción.
-						mySTL::fill(old_start, result, value);
-					}
-					// Actualizar el iterador a posición de inserción.
-					result = this->start + elements_before_pos;
+					// Llenar con el valor value los espacios entre el nuevo inicio
+					// y el inicio viejo.
+					mySTL::fill(new_start, this->start, value);
+					// Actualizar el inicio de la secuencia.
+					result = this->start = new_start;
 				}
-				else // De lo contrario
+				// De lo contrario, si se quieren insertar al final
+				else if (position.current == this->finish.current)
 				{
 					// Reservar espacio para count elementos al final del contenedor
 					// y guardar el nuevo final de la secuencia.
 					iterator new_finish = this->reserve_elements_at_back(count);
-					// Guardar el final viejo de la secuencia.
-					iterator old_finish = this->finish;
-					// Número de elementos entre la posición de inserción
-					// y el final del contenedor.
-					difference_type elements_after_pos = size() - elements_before_pos;
-					result = this->finish - elements_after_pos;
+					// Llenar con el valor value los espacios entre el final viejo
+					// y el final nuevo.
+					mySTL::fill(this->finish, new_finish, value);
+					result = this->finish;
+					// Actualizar el final de la secuencia.
+					this->finish = new_finish;
+				}
+				// De lo contrario
+				else
+				{
+					// Número de elementos que se encuentran entre
+					// el inicio del contenedor y la posición de inserción.
+					difference_type elements_before_pos = position - begin();
 
-					// Si entre la posición de inserción y el final hay espacio 
-					// suficiente para count elementos
-					if (elements_after_pos > count)
+					// Si la posición de inserción es más cercana al inicio del contenedor
+					if (elements_before_pos < (size() / 2))
 					{
-						// Copiar los ultimos count elementos del contenedor a los
-						// nuevos espacios después del viejo final.
-						iterator first_of_last_elements = this->finish - count;
-						mySTL::copy(first_of_last_elements, this->finish, this->finish);
-						// Actualizar el final de la secuencia.
-						this->finish = new_finish;
-						// Copiar los elementos restantes a las posiciones anteriores
-						// al viejo final.
-						mySTL::copy_backward(result, first_of_last_elements, old_finish);
-						// Llenar con value los espacios correspondientes desde 
-						// la posición de inserción.
-						mySTL::fill(result, result + count, value);
+						// Reservar espacio para count elementos al inicio del contenedor
+						// y guardar el nuevo inicio de la secuencia.
+						iterator new_start = this->reserve_elements_at_front(count);
+						// Guardar el inicio viejo de la secuencia.
+						iterator old_start = this->start;
+						result = this->start + elements_before_pos;
+
+						// Si entre el inicio y la posición de inserción hay espacio 
+						// suficiente para count elementos
+						if (elements_before_pos >= count)
+						{
+							// Copiar los primeros count elementos del contenedor al
+							// nuevo inicio.
+							iterator last_of_first_elements = this->start + count;
+							mySTL::copy(this->start, last_of_first_elements, new_start);
+							// Actualizar el inicio de la secuencia.
+							this->start = new_start;
+							// Copiar los elementos restantes al viejo inicio.
+							mySTL::copy(last_of_first_elements, result, old_start);
+							// Llenar con value los espacios restantes correspondientes.
+							mySTL::fill(result - count, result, value);
+						}
+						else
+						{
+							// Copiar los elementos entre el viejo inicio y la posición
+							// de inserción, al nuevo inicio.
+							iterator end_of_range = mySTL::copy(this->start, result, new_start);
+							// Llenar con value los espacios restantes hasta el viejo inicio.
+							mySTL::fill(end_of_range, this->start, value);
+							// Actualizar el inicio de la secuencia.
+							this->start = new_start;
+							// Llenar con value los espacios restantes desde el viejo inicio
+							// hasta la posición de inserción.
+							mySTL::fill(old_start, result, value);
+						}
+						// Actualizar el iterador a posición de inserción.
+						result = this->start + elements_before_pos;
 					}
 					else // De lo contrario
 					{
-						// Llenar con value los espacios correspondientes desde
-						// el viejo final.
-						mySTL::fill(this->finish, result + count, value);
-						// Copiar los elementos entre la posición de inserción
-						// y el viejo final, a la posición después del último
-						// nuevo elemento insertado.
-						mySTL::copy(result, this->finish, result + count);
-						// Actualizar el final de la secuencia.
-						this->finish = new_finish;
-						// Llenar con value los espacios entre la posición
-						// de inserción y el viejo final.
-						mySTL::fill(result, old_finish, value);
+						// Reservar espacio para count elementos al final del contenedor
+						// y guardar el nuevo final de la secuencia.
+						iterator new_finish = this->reserve_elements_at_back(count);
+						// Guardar el final viejo de la secuencia.
+						iterator old_finish = this->finish;
+						// Número de elementos entre la posición de inserción
+						// y el final del contenedor.
+						difference_type elements_after_pos = size() - elements_before_pos;
+						result = this->finish - elements_after_pos;
+
+						// Si entre la posición de inserción y el final hay espacio 
+						// suficiente para count elementos
+						if (elements_after_pos > count)
+						{
+							// Copiar los ultimos count elementos del contenedor a los
+							// nuevos espacios después del viejo final.
+							iterator first_of_last_elements = this->finish - count;
+							mySTL::copy(first_of_last_elements, this->finish, this->finish);
+							// Actualizar el final de la secuencia.
+							this->finish = new_finish;
+							// Copiar los elementos restantes a las posiciones anteriores
+							// al viejo final.
+							mySTL::copy_backward(result, first_of_last_elements, old_finish);
+							// Llenar con value los espacios correspondientes desde 
+							// la posición de inserción.
+							mySTL::fill(result, result + count, value);
+						}
+						else
+						{
+							// Llenar con value los espacios correspondientes desde
+							// el viejo final.
+							mySTL::fill(this->finish, result + count, value);
+							// Copiar los elementos entre la posición de inserción
+							// y el viejo final, a la posición después del último
+							// nuevo elemento insertado.
+							mySTL::copy(result, this->finish, result + count);
+							// Actualizar el final de la secuencia.
+							this->finish = new_finish;
+							// Llenar con value los espacios entre la posición
+							// de inserción y el viejo final.
+							mySTL::fill(result, old_finish, value);
+						}
 					}
 				}
 			}
+
+			return result;
+		}
+
+		template <typename InputIterator,
+				  typename = typename std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,
+					typename std::iterator_traits<InputIterator>::iterator_category>>>
+		iterator insert(const_iterator position, InputIterator first, InputIterator last)
+		{
+			iterator result;
+
+			if (first == last)
+			{
+				result = position;
+			}
+			else
+			{
+				size_type count = std::distance(first, last);
+
+				if (position.current == this->start.current)
+				{
+					// Reservar espacio para count elementos al inicio del contenedor
+					// y guardar el nuevo inicio de la secuencia.
+					iterator new_start = this->reserve_elements_at_front(count);
+					// Copiar los elementos del rango [first, last) al contenedor
+					// desde su nuevo inicio.
+					mySTL::copy(first, last, new_start);
+					// Actualizar el inicio de la secuencia.
+					result = this->start = new_start;
+				}
+				else if (position.current == this->finish.current)
+				{
+					// Reservar espacio para count elementos al final del contenedor
+					// y guardar el nuevo final de la secuencia.
+					iterator new_finish = this->reserve_elements_at_back(count);
+					// Copiar los elementos del rango [first, last) al contenedor
+					// después del último elemento.
+					mySTL::copy(first, last, this->finish);
+					result = this->finish;
+					// Actualizar el final de la secuencia.
+					this->finish = new_finish;
+				}
+				else
+				{
+					difference_type elements_before_pos = position - begin();
+
+					if (elements_before_pos < (size() / 2))
+					{
+						// Reservar espacio para count elementos al inicio del contenedor
+						// y guardar el nuevo inicio de la secuencia.
+						iterator new_start = this->reserve_elements_at_front(count);
+						// Guardar el inicio viejo de la secuencia.
+						iterator old_start = this->start;
+						result = this->start + elements_before_pos;
+
+						// Si entre el inicio y la posición de inserción hay espacio 
+						// suficiente para count elementos
+						if (elements_before_pos >= count)
+						{
+							// Copiar los primeros count elementos del contenedor al
+							// nuevo inicio.
+							iterator last_of_first_elements = this->start + count;
+							mySTL::copy(this->start, last_of_first_elements, new_start);
+							// Actualizar el inicio de la secuencia.
+							this->start = new_start;
+							// Copiar los elementos restantes al viejo inicio.
+							mySTL::copy(last_of_first_elements, result, old_start);
+							// Copiar los elementos del rango [first, last) al contenedor
+							// desde su posición correspondiente.
+							mySTL::copy(first, last, result - count);
+						}
+						else
+						{
+							// Copiar los elementos entre el viejo inicio y la posición
+							// de inserción, al nuevo inicio.
+							iterator end_of_range = mySTL::copy(this->start, result, new_start);
+							// Copiar los elementos del rango [first, last) al contenedor
+							// desde su posición correspondiente.
+							iterator range_mid = first + (count - elements_before_pos);
+							mySTL::copy(first, range_mid, end_of_range);
+							// Actualizar el inicio de la secuencia.
+							this->start = new_start;
+							mySTL::copy(range_mid, last, old_start);
+						}
+						// Actualizar el iterador a posición de inserción.
+						result = this->start + elements_before_pos;
+					}
+					else
+					{
+						// Reservar espacio para count elementos al final del contenedor
+						// y guardar el nuevo final de la secuencia.
+						iterator new_finish = this->reserve_elements_at_back(count);
+						// Guardar el final viejo de la secuencia.
+						iterator old_finish = this->finish;
+						// Número de elementos entre la posición de inserción
+						// y el final del contenedor.
+						difference_type elements_after_pos = size() - elements_before_pos;
+						result = this->finish - elements_after_pos;
+
+						// Si entre la posición de inserción y el final hay espacio 
+						// suficiente para count elementos
+						if (elements_after_pos > count)
+						{
+							// Copiar los ultimos count elementos del contenedor a los
+							// nuevos espacios después del viejo final.
+							iterator first_of_last_elements = this->finish - count;
+							mySTL::copy(first_of_last_elements, this->finish, this->finish);
+							// Actualizar el final de la secuencia.
+							this->finish = new_finish;
+							// Copiar los elementos restantes a las posiciones anteriores
+							// al viejo final.
+							mySTL::copy_backward(result, first_of_last_elements, old_finish);
+							// Copiar los elementos del rango [first, last) al contenedor
+							// desde su posición correspondiente.
+							mySTL::copy(first, last, result);
+						}
+						else
+						{
+							// Copiar los elementos de [first, last) que no caben 
+							// entre la posición de  inserción y el final,
+							// al final del contenedor.
+							iterator range_mid = first + elements_after_pos;
+							iterator end_of_range = mySTL::copy(range_mid, last, this->finish);
+							// Copiar los elementos que están entre la posición de
+							// inserción y el final, a la posición después de los nuevos
+							// elementos insertados.
+							mySTL::copy(result, this->finish, end_of_range);
+							// Actualizar el final de la secuencia.
+							this->finish = new_finish;
+							// Copiar los elementos restantes de [first, last)
+							// al contenedor desde la posición de inserción.
+							mySTL::copy(first, range_mid, result);
+						}
+					}
+				}
+			}
+
 			return result;
 		}
 
@@ -1417,7 +1561,7 @@ namespace mySTL
 				this->create_new_nodes_at_front(count - available_spaces);
 
 			// Retornar el nuevo inicio del contenedor.
-			return (this->start + difference_type(count));
+			return (this->start - difference_type(count));
 		}
 
 	};

@@ -176,6 +176,20 @@ int testDeque()
 	std::cout << "deque16: ";
 	print_deque(deque16);
 
+	std::cout << "Con iteradores:\n";
+	// [ 1, 100, 25 (x105?), 2, 25 (x500), 3, 4, 50 (x100), 5 ]
+	deque16.insert(deque16.begin() + 2, deque16.begin() + 5, deque16.begin() + 200);
+
+	std::cout << "deque16: ";
+	print_deque(deque16);
+
+	std::cout << "Mas iteradores:\n";
+	// [ 1, 100, 25 (x105?), 2, 25 (x500), 3, 4, 50 (x100), 25 (x95?), 5 ]
+	deque16.insert(deque16.end() - 1, deque16.begin() + 5, deque16.begin() + 100);
+
+	std::cout << "deque16: ";
+	print_deque(deque16);
+
 	std::cout << '\n';
 
 	std::cout << "Bien. xd\n";
