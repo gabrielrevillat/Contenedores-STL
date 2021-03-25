@@ -1347,7 +1347,50 @@ namespace mySTL
 		 */
 		void clear() noexcept
 		{
+			// Destruir cada fragmento de memoria excepto
+			// los apuntados por los nodos de los extremos.
+			for (map_pointer current_node = this->start.node + 1;
+				 current_node < this->finish.node; ++current_node)
+			{
+				// Destruir todos los elementos del fragmento
+				// de memoria apuntado por el nodo actual.
+				for (pointer element = *current_node;
+					 element < *current_node + buffer_size(); ++element)
+					delete element;
 
+				// Destruir el fragmento.
+				delete [] *current_node;
+			}
+				
+
+			// Si hay más de un nodo en el mapa
+			if (this->start.node != this->finish.node)
+			{
+				// Destruir todos los elementos del primer
+				// fragmento de memoria.
+				for (pointer element = this->start.current;
+					 element < this->start.last; ++element)
+					delete element;
+
+				// Destruir todos los elementos del último
+				// fragmento de memoria.
+				for (pointer element = this->finish.first;
+					 element < this->finish.current; ++element)
+					delete element;
+
+				// Destruir el último fragmento de memoria.
+				delete [] this->finish.first;
+			}
+			else // De lo contrario
+			{
+				// Destruir los elementos del único fragmento de memoria.
+				for (pointer element = this->start.current;
+					 element < this->finish.current; ++element)
+					delete element;
+			}
+
+			// Actualizar iteradores.
+			this->finish = this->start;
 		}
 
 	// Métodos privados
@@ -1421,7 +1464,7 @@ namespace mySTL
 			// Destruir cada fragmento de memoria apuntado
 			// desde start hasta finish.
 			for (map_pointer current = this->start.node;
-				 current < this->finish.node; ++current)
+				 current <= this->finish.node; ++current)
 				delete [] *current;
 
 			delete [] this->map; // Destruir arreglo de nodos.
