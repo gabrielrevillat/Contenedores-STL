@@ -1292,6 +1292,43 @@ namespace mySTL
 		}
 
 		/**
+		 * Elimina el elemento en la posición @a position del contenedor. 
+		 * 
+		 * @param position  Iterador que apunta al elemento por eliminar.
+		 * @return iterador que apunta a la nueva ubicación del elemento siguiente al eliminado.
+		 */
+		iterator erase(const_iterator position)
+		{
+			// El índice donde se elimina el elemento es la distancia entre
+			// begin() (el iterador que apunta al inicio) y
+			// position (el iterador que apunta a la posición).
+			difference_type index = position - begin();
+			// Iterador que apunta a la posición de eliminado. (No const)
+			iterator result = begin() + index;
+
+			// Si la posición de eliminado se encuentra
+			// en la primera mitad del contenedor
+			if (index < (size() / 2))
+			{
+				// Copiar todos los elementos desde el primero hasta el
+				// elemento en la posición de eliminado, a su posición siguiente.
+				mySTL::copy(begin(), result, result + 1);
+				// Eliminar el primer elemento.
+				this->pop_front();
+			}
+			else
+			{
+				// Copiar todos los elementos desde el elemento en la
+				// posición de eliminado hasta el último, a su posición anterior.
+				mySTL::copy_backward(result + 1, end(), result);
+				// Eliminar el último elemento.
+				this->pop_back();
+			}
+
+			return result;
+		}
+
+		/**
 		 * Intercambia el contenido de este objeto por el contenido de @a other.
 		 * 
 		 * @param other Otro objeto deque del mismo tipo, para intercambiar sus elementos.
@@ -1305,6 +1342,13 @@ namespace mySTL
 			swap(this->finish, other.finish);
 		}
 
+		/**
+		 * Elimina todos los elementos del contenedor.
+		 */
+		void clear() noexcept
+		{
+
+		}
 
 	// Métodos privados
 	private:

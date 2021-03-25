@@ -1285,6 +1285,21 @@ Este método llama a `std::swap` para intercambiar los atributos privados del *de
 void swap(deque& other);
 ```
 
+8. #### clear
+
+**Vacía el contenido.**
+
+Elimina todos los elementos del contenedor y lo deja con tamaño 0.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Nada.
+* **Complejidad**: Lineal en el número de destrucciones.
+* **Declaración**:
+
+```C++
+void clear() noexcept;
+```
+
 9. #### emplace
 
 **Construye e inserta un elemento.**
