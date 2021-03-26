@@ -420,20 +420,6 @@ en bytes de `value_type`.
 static size_type buffer_size() noexcept;
 ```
 
-### construct_element
-
-Construye un elemento con el valor *value* en la posición *position*.
-
-* **Parámetros**:
-	* *position*: La posición donde se construye el nuevo elemento.
-	* *value*: El valor del elemento por construir.
-* **Complejidad**: Constante.
-* **Declaración**:
-
-```C++
-void construct_element(pointer position, const value_type& value);
-```
-
 ### create_map_and_nodes
 
 Inicializa el arreglo de punteros `map` según la cantidad de elementos

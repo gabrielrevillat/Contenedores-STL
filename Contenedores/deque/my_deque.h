@@ -764,7 +764,7 @@ namespace mySTL
 			{
 				// Construir el nuevo elemento en la posición siguiente a la
 				// del último elemento. 
-				this->construct_element(this->finish.current, std::forward<Args>(args)...);
+				*this->finish.current = value_type(std::forward<Args>(args)...);
 				// Incrementar el iterador finish para que siga apuntando a
 				// la posición siguiente a la del último elemento.
 				++this->finish.current;
@@ -778,7 +778,7 @@ namespace mySTL
 				*(this->finish.node + 1) = new value_type[ buffer_size() ];
 				// Construir el nuevo elemento en la última posición
 				// del último fragmento viejo.
-				this->construct_element(this->finish.current, std::forward<Args>(args)...);
+				*this->finish.current = value_type(std::forward<Args>(args)...);
 				// Reajustar el iterador finish para que apunte al nuevo último nodo.
 				this->finish.set_node(this->finish.node + 1);
 				this->finish.current = this->finish.first;
@@ -819,8 +819,7 @@ namespace mySTL
 			{
 				// Construir el nuevo elemento en la posición anterior a la
 				// del primer elemento.
-				this->construct_element(this->start.current - 1,
-					std::forward<Args>(args)...);
+				*(this->start.current - 1) = value_type(std::forward<Args>(args)...);
 				// Disminuir el iterador start para que siga apuntando a
 				// la posición del primer elemento.
 				--this->start.current;
@@ -837,7 +836,7 @@ namespace mySTL
 				this->start.current = this->start.last - 1;
 				// Construir el nuevo elemento en la última posición
 				// del nuevo primer fragmento.
-				this->construct_element(this->start.current, std::forward<Args>(args)...);
+				*this->start.current = value_type(std::forward<Args>(args)...);
 			}
 		}
 
@@ -1489,17 +1488,6 @@ namespace mySTL
 		static size_type buffer_size() noexcept
 		{
 			return my_deque_chunk_size( sizeof(value_type) );
-		}
-
-		/**
-		 * Construye un elemento con el valor @a value en la posición @a position.
-		 * 
-		 * @param position	La posición donde se construye el nuevo elemento.
-		 * @param value		El valor del elemento por construir.
-		 */
-		void construct_element(pointer position, const value_type& value)
-		{
-			*position = value;
 		}
 
 		/**

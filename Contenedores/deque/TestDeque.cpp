@@ -160,43 +160,47 @@ int testDeque()
 
 	mySTL::deque<int> deque16 = { 1, 2, 3, 4, 5 };
 
-	std::cout << "Un elemento:\n";
+	std::cout << "\nUn elemento:\n";
 	deque16.insert(deque16.begin() + 1, 100); // [ 1, 100, 2, 3, 4, 5 ]
 
 	std::cout << "deque16: ";
 	print_deque(deque16);
 
-	std::cout << "Con 500 elementos:\n";
+	std::cout << "\nCon 500 elementos:\n";
 	deque16.insert(deque16.begin() + 3, 500, 25); // [ 1, 100, 2, 25 (x500), 3, 4, 5 ]
 
 	std::cout << "deque16: ";
 	print_deque(deque16);
 
-	std::cout << "Otros 100 elementos:\n";
+	std::cout << "\nOtros 100 elementos:\n";
 	deque16.insert(deque16.begin() + 505, 100, 50); // [ 1, 100, 2, 25 (x500), 3, 4, 50 (x100), 5 ]
 
 	std::cout << "deque16: ";
 	print_deque(deque16);
 
-	std::cout << "Con iteradores:\n";
+	std::cout << "\nCon iteradores:\n";
 	// [ 1, 100, 25 (x105?), 2, 25 (x500), 3, 4, 50 (x100), 5 ]
 	deque16.insert(deque16.begin() + 2, deque16.begin() + 5, deque16.begin() + 200);
 
 	std::cout << "deque16: ";
 	print_deque(deque16);
 
-	std::cout << "Mas iteradores:\n";
+	std::cout << "\nMas iteradores:\n";
 	// [ 1, 100, 25 (x105?), 2, 25 (x500), 3, 4, 50 (x100), 25 (x95?), 5 ]
 	deque16.insert(deque16.end() - 1, deque16.begin() + 5, deque16.begin() + 100);
 
 	std::cout << "deque16: ";
 	print_deque(deque16);
 
-	std::cout << "Con initializer_list:\n";
+	std::cout << "\nCon initializer_list:\n";
 	deque16.insert(deque16.begin() + (deque16.size() / 2), { 40, 70, 80 });
 
 	std::cout << "deque16: ";
 	print_deque(deque16);
+
+	std::cout << "Prueba de los metodos erase:\n";
+
+
 
 	std::cout << '\n';
 	std::cout << "-----Fin del SPAM, gracias por su atencion. xd-----\n\n";
