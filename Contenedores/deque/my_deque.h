@@ -1329,6 +1329,91 @@ namespace mySTL
 		}
 
 		/**
+		 * Elimina los elementos en el rango [@ first, @ last) del contenedor. 
+		 * 
+		 * @param first, last   Rango de elementos a eliminar.
+		 * @return iterador que apunta a la nueva ubicación del elemento siguiente al último eliminado.
+		 */
+		iterator erase(const_iterator first, const_iterator last)
+		{
+			iterator result;
+
+			// Si el rango [first, last) coincide con el
+			// rango del contenedor completo
+			if (this->start == first && this->finish == last)
+			{
+				// Vaciar el contenedor.
+				this->clear();
+				result = this->finish;
+			}
+			else
+			{
+				// El indice donde se elimina el primer elemento es la distancia entre
+				// begin() (el iterador que apunta al inicio) y first
+				// (el iterador que apunta a la posición del primer elemento a eliminar).
+				difference_type first_index = first - begin();
+				// El número de elementos por eliminar 
+				// es la distancia entre los iteradores.
+				difference_type count = std::distance(first, last);
+
+				// Si la posición del primer elemento a eliminar 
+				// es más cercana al inicio del contenedor
+				if (first_index < ((size() - count) / 2))
+				{
+					// Copiar los elementos que se encuentran entre
+					// el inicio del contenedor y first, a las posiciones
+					// anteriores al final del rango de eliminado.
+					mySTL::copy_backward(this->start, first, last);
+					// Desplazar el inicio de la secuencia
+					// según el número de elementos por eliminar.
+					iterator new_start = this->start + count;
+					
+					// Destruir los elementos entre el viejo inicio
+					// y el nuevo inicio.
+					for (pointer element = this->start;
+						 element < new_start; ++element)
+						delete element;
+
+					// Si había más de un nodo entre el viejo inicio
+					// y el nuevo inicio, destruirlo.
+					for (map_pointer current = this->start.node;
+						 current < new_start.node; ++current)
+						delete [] *current;
+
+					// Actualizar el inicio de la secuencia.
+					this->start = new_start;
+				}
+				else
+				{
+					// Copiar los elementos que se encuentran entre
+					// last y el final del contenedor, a las posiciones
+					// a partir del inicio del rango de eliminado.
+					mySTL::copy(last, this->finish, first);
+					// Desplazar el final de la secuencia
+					// según el número de elementos por eliminar.
+					iterator new_finish = this->finish - count;
+
+					// Destruir los elementos entre el nuevo final
+					// y el viejo final.
+					for (pointer element = new_finish;
+						 element < this->finish; ++element)
+						delete element;
+
+					for (map_pointer current = new_finish.node + 1;
+						 current <= this->finish.node; ++current)
+						delete [] *current;
+
+					// Actualizar el final de la secuencia.
+					this->finish = new_finish;
+				}
+
+				result = begin() + first_index;
+			}
+
+			return result;
+		}
+
+		/**
 		 * Intercambia el contenido de este objeto por el contenido de @a other.
 		 * 
 		 * @param other Otro objeto deque del mismo tipo, para intercambiar sus elementos.
