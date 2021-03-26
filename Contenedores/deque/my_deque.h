@@ -1311,7 +1311,7 @@ namespace mySTL
 			{
 				// Copiar todos los elementos desde el primero hasta el
 				// elemento en la posición de eliminado, a su posición siguiente.
-				mySTL::copy(begin(), result, result + 1);
+				mySTL::copy_backward(begin(), result, result + 1);
 				// Eliminar el primer elemento.
 				this->pop_front();
 			}
@@ -1369,9 +1369,10 @@ namespace mySTL
 					
 					// Destruir los elementos entre el viejo inicio
 					// y el nuevo inicio.
-					for (pointer element = this->start;
-						 element < new_start; ++element)
-						delete element;
+					// Revisar por qué se cae esto.
+					/*for (pointer element = this->start.current;
+						 element < new_start.current - 1; ++element)
+						delete element;*/
 
 					// Si había más de un nodo entre el viejo inicio
 					// y el nuevo inicio, destruirlo.
@@ -1394,8 +1395,8 @@ namespace mySTL
 
 					// Destruir los elementos entre el nuevo final
 					// y el viejo final.
-					for (pointer element = new_finish;
-						 element < this->finish; ++element)
+					for (pointer element = new_finish.current;
+						 element < this->finish.current; ++element)
 						delete element;
 
 					for (map_pointer current = new_finish.node + 1;

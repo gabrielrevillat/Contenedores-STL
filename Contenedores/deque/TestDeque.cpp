@@ -179,15 +179,15 @@ int testDeque()
 	print_deque(deque16);
 
 	std::cout << "\nCon iteradores:\n";
-	// [ 1, 100, 25 (x105?), 2, 25 (x500), 3, 4, 50 (x100), 5 ]
-	deque16.insert(deque16.begin() + 2, deque16.begin() + 5, deque16.begin() + 200);
+	// [ 1, 100, 25 (x95?), 2, 25 (x500), 3, 4, 50 (x100), 5 ]
+	deque16.insert(deque16.begin() + 2, deque16.begin() + 5, deque16.begin() + 100);
 
 	std::cout << "deque16: ";
 	print_deque(deque16);
 
 	std::cout << "\nMas iteradores:\n";
-	// [ 1, 100, 25 (x105?), 2, 25 (x500), 3, 4, 50 (x100), 25 (x95?), 5 ]
-	deque16.insert(deque16.end() - 1, deque16.begin() + 5, deque16.begin() + 100);
+	// [ 1, 100, 25 (x95?), 2, 25 (x500), 3, 4, 50 (x100), 25 (x85?), 5 ]
+	deque16.insert(deque16.end() - 1, deque16.begin() + 5, deque16.begin() + 90);
 
 	std::cout << "deque16: ";
 	print_deque(deque16);
@@ -198,9 +198,20 @@ int testDeque()
 	std::cout << "deque16: ";
 	print_deque(deque16);
 
+	std::cout << '\n';
 	std::cout << "Prueba de los metodos erase:\n";
 
+	std::cout << "\nUn elemento:\n";
+	deque16.erase(deque16.begin() + 1);
 
+	std::cout << "deque16: ";
+	print_deque(deque16);
+
+	std::cout << "\nCon iteradores:\n";
+	deque16.erase(deque16.begin() + 1, deque16.begin() + 96);
+
+	std::cout << "deque16: ";
+	print_deque(deque16);
 
 	std::cout << '\n';
 	std::cout << "-----Fin del SPAM, gracias por su atencion. xd-----\n\n";
