@@ -102,10 +102,18 @@ int testDeque()
 	std::cout << "Size of deque10: " << int( deque10.size() ) << '\n'; // 7
 	std::cout << "Size of deque11: " << int( deque11.size() ) << '\n'; // 5
 	std::cout << "Size of deque12: " << int( deque12.size() ) << '\n'; // 3
-
 	std::cout << '\n';
 
-	mySTL::deque<int> deque13;
+	std::cout << "Prueba del metodo resize:\n";
+
+	mySTL::deque<int> deque13{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+	deque13.resize(5);		// [ 1, 2, 3, 4, 5 ]
+	deque13.resize(8, 100); // [ 1, 2, 3, 4, 5, 100, 100, 100 ]
+	deque13.resize(12);		// [ 1, 2, 3, 4, 5, 100, 100, 100, 0, 0, 0, 0 ]
+
+	print_deque(deque13);
+	std::cout << '\n';
 
 	std::cout << "Prueba del operador [] y el metodo at:\n";
 

@@ -659,7 +659,35 @@ namespace mySTL
 			return ( ( pow(2, 63) / sizeof(value_type) ) - 1 );
 		}
 
+		/**
+		 * Cambia el tamaño del contenedor para @a count elementos.
+		 * 
+		 * @param count El nuevo tamaño del contenedor.
+		 */
+		void resize(size_type count)
+		{
+			this->resize(count, value_type());
+		}
 
+		/**
+		 * Cambia el tamaño del contenedor para @a count elementos. 
+		 * Los nuevos elementos se inicializan con copias de @a value. 
+		 * 
+		 * @param count El nuevo tamaño del contenedor.
+		 * @param value El valor para inicializar los elementos añadidos.
+		 */
+		void resize(size_type count, value_type value)
+		{
+			// Si count es menor al tamaño actual del contenedor
+			if (count < size())
+				// Eliminar los elementos sobrantes.
+				this->erase(begin() + count, end());
+			// De lo contrario
+			else
+				// Insertar el valor value al final del contenedor
+				// hasta alcanzar el tamaño count.
+				this->insert(end(), count - size(), value);
+		}
 
 		/// Verifica si el contenedor está vacío.
 		inline bool empty() const noexcept { return (size() == 0); }
@@ -1369,10 +1397,9 @@ namespace mySTL
 					
 					// Destruir los elementos entre el viejo inicio
 					// y el nuevo inicio.
-					// Revisar por qué se cae esto.
-					/*for (pointer element = this->start.current;
-						 element < new_start.current - 1; ++element)
-						delete element;*/
+					/* for (pointer element = this->start.current;
+						 element < new_start.current; ++element)
+						delete element; */
 
 					// Si había más de un nodo entre el viejo inicio
 					// y el nuevo inicio, destruirlo.
@@ -1395,9 +1422,9 @@ namespace mySTL
 
 					// Destruir los elementos entre el nuevo final
 					// y el viejo final.
-					for (pointer element = new_finish.current;
+					/* for (pointer element = new_finish.current;
 						 element < this->finish.current; ++element)
-						delete element;
+						delete element; */
 
 					for (map_pointer current = new_finish.node + 1;
 						 current <= this->finish.node; ++current)

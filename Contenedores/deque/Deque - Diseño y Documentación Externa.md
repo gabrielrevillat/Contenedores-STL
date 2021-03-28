@@ -974,6 +974,33 @@ Fórmula, basada en el valor que retorna el método en mi computadora: (2^63)/(Tam
 size_type max_size() const noexcept;
 ```
 
+3. #### resize
+
+**Cambia el tamaño del contenedor.**
+
+Cambia el tamaño del contenedor para *count* elementos.
+
+Si *count* es menor al tamaño actual del contenedor, el contenido se reduce a sus primeros *count* elementos,
+de forma que se eliminan y destruyen los elementos sobrantes.
+
+Si *count* es mayor al tamaño actual del contenedor, el contenido se expande y se insertan al final
+los elementos necesarios para alcanzar un tamaño de *count* elementos. Si se especifica *value*,
+los nuevos elementos se inicializan como copias de *value*.
+
+* **Parámetros**:
+    * *count*: El nuevo tamaño del contenedor.
+    * *value*: El valor para inicializar los elementos añadidos en caso de que *count* sea mayor
+	al tamaño actual del contenedor.
+* **Retorna**: Nada.
+* **Complejidad**: Lineal en el número de elementos insertados o eliminados.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+void resize(size_type count);
+void resize(size_type count, value_type value);
+```
+
 4. #### empty
 
 **Verifica si el contenedor está vacío.**
