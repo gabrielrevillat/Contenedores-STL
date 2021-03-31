@@ -1480,3 +1480,17 @@ y los elementos en *deque_two* son los que estaban en *deque_one*.
 ```C++
 void swap(const deque<ValueType>& deque_one, const deque<ValueType>& deque_two);
 ```
+
+## Referencias
+
+De documentación:
+
+https://www.cplusplus.com/reference/deque/deque/
+
+https://en.cppreference.com/w/cpp/container/deque
+
+De implementación:
+
+https://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen/a00533_source.html
+
+https://github.com/arkingc/note/blob/master/C%2B%2B/tass-sgi-stl-2.91.57-source/stl_deque.h#L1039
