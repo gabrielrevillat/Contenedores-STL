@@ -1017,6 +1017,25 @@ Retorna un valor `bool` que indica si el contenedor está vacío, es decir, cuando
 bool empty() const noexcept;
 ```
 
+5. #### shrink_to_fit
+
+**Encogimiento para encajar con el tamaño del contenedor.**
+
+Solicita reducir la capacidad del contenedor para encajar con el número de elementos.
+
+Un *deque* puede tener asignada más memoria de lo necesario para contener sus elementos
+actuales; esta memoria adicional permite realizar inserciones de manera más rápida.
+
+* **Parámetros**: Ninguno.
+* **Retorna**: Nada.
+* **Complejidad**: Lineal en el tamaño del contenedor a lo sumo.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+void shrink_to_fit();
+```
+
 ### Acceso a elementos
 
 1. #### operator[]

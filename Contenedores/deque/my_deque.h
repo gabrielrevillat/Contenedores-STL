@@ -692,6 +692,33 @@ namespace mySTL
         /// Verifica si el contenedor está vacío.
         inline bool empty() const noexcept { return (size() == 0); }
 
+        /**
+         * Solicita reducir la capacidad del contenedor para encajar
+         * con el número de elementos.
+         */
+        void shrink_to_fit()
+        {
+            // Calcular el espacio libre para nuevos elementos
+            // al inicio del contenedor.
+            difference_type front_capacity = (this->start.current
+                                            - this->start.first);
+            // Calcular el espacio libre para nuevos elementos
+            // al final del contenedor.
+            difference_type back_capacity = (this->finish.last
+                                            - this->finish.current);
+
+            // Si hay mucho más espacio libre de lo necesario
+            if ( (front_capacity > 0)
+                && (front_capacity + back_capacity >= buffer_size()) )
+            {
+                // Al crear un nuevo contenedor con el mismo contenido, 
+                // se crea con la capacidad adicional necesaria.
+                auto new_deque = deque(this->begin(), this->end());
+                // Intercambiar con el contenedor actual.
+                this->swap(new_deque);
+            }
+        }
+
         // Acceso a elementos.
 
         /**
