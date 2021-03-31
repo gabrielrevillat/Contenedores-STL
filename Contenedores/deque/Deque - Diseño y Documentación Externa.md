@@ -1414,3 +1414,69 @@ fragmento de memoria y conecta ese fragmento con el nuevo.
 template <typename... Args>
     void emplace_back(Args&&... args);
 ```
+
+## Sobrecarga de funciones no-miembro
+
+### Operadores relacionales
+
+Realiza la operación de comparación apropiada entre los contenedores *deque* *lhs* y *rhs*.
+
+La **comparación de igualdad** es realizada primero comparando el tamaño de ambos contenedores,
+y si coinciden, se comparan los elementos secuencialmente usando el operador **==**,
+deteniéndose en la primera discordancia.
+
+La **comparación "menor que"** compara los elementos secuencialmente usando el operador **<**,
+deteniéndose en la primera discordancia.
+
+Las otras operaciones utilizan los operadores sobrecargados **==** y **<**.
+Se comportan de la siguiente manera:
+
+| Operación | Operación equivalente |
+|-----------|-----------------------|
+| a != b    | !( a == b )           |
+| a > b     | b < a                 |
+| a <= b    | !( b < a )            |
+| a >= b    | !( a < b )            |
+
+* **Parámetros**:
+  * *lhs*, *rhs*: Contenedores *deque* (*left-hand side* y *right-hand side*) cuyos parámetros de plantilla son iguales.
+* **Retorna**: `true` si se cumple la condición; de lo contrario `false`.
+* **Complejidad**: Lineal según el tamaño de los contenedores.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+template <typename ValueType>
+    bool operator==(const deque<ValueType>& lhs, const deque<ValueType>& rhs);
+template <typename ValueType>
+    bool operator!=(const deque<ValueType>& lhs, const deque<ValueType>& rhs);
+template <typename ValueType>
+    bool operator<(const deque<ValueType>& lhs, const deque<ValueType>& rhs);
+template <typename ValueType>
+    bool operator<=(const deque<ValueType>& lhs, const deque<ValueType>& rhs);
+template <typename ValueType>
+    bool operator>(const deque<ValueType>& lhs, const deque<ValueType>& rhs);
+template <typename ValueType>
+    bool operator>=(const deque<ValueType>& lhs, const deque<ValueType>& rhs);
+```
+
+### swap
+
+**Intercambia contenido de contenedores *deque*.**
+
+Intercambia el contenido de *deque_one* por el de *deque_two*.
+Ambos objetos *deque* deben ser del mismo tipo, aunque los tamaños pueden ser distintos.
+
+Después del llamado a este método, los elementos en *deque_one* son los que estaban anteriormente en *deque_two*,
+y los elementos en *deque_two* son los que estaban en *deque_one*.
+
+* **Parámetros**:
+  * *deque_one*, *deque_two*: Contenedores *deque* del mismo tipo y tamaño.
+* **Retorna**: Nada.
+* **Complejidad**: Constante.
+* **Excepciones**: No se lanzan excepciones.
+* **Declaración**:
+
+```C++
+void swap(const deque<ValueType>& deque_one, const deque<ValueType>& deque_two);
+```

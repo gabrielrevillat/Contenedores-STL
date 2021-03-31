@@ -1800,6 +1800,59 @@ namespace mySTL
 
     };
 
+    // Funciones no miembros.
+
+    // Operadores relacionales
+
+    template <typename ValueType>
+    inline bool operator==(const deque<ValueType>& lhs, const deque<ValueType>& rhs)
+    {
+        return ( ( lhs.size() == rhs.size() ) && ( mySTL::equal(lhs.begin(), lhs.end(), rhs.begin()) ) );
+    }
+
+    template <typename ValueType>
+    inline bool operator!=(const deque<ValueType>& lhs, const deque<ValueType>& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    template <typename ValueType>
+    inline bool operator<(const deque<ValueType>& lhs, const deque<ValueType>& rhs)
+    {
+        return mySTL::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    }
+
+    template <typename ValueType>
+    inline bool operator<=(const deque<ValueType>& lhs, const deque<ValueType>& rhs)
+    {
+        return !(rhs < lhs);
+    }
+
+    template <typename ValueType>
+    inline bool operator>(const deque<ValueType>& lhs, const deque<ValueType>& rhs)
+    {
+        return (rhs < lhs);
+    }
+
+    template <typename ValueType>
+    inline bool operator>=(const deque<ValueType>& lhs, const deque<ValueType>& rhs)
+    {
+        return !(lhs < rhs);
+    }
+
+    // Función swap
+
+    /**
+    * Intercambia el contenido de @a deque_one por el de @a deque_two.
+    * 
+    * @param deque_one, deque_two   Contenedores deque del mismo tipo y tamaño.
+    */ 
+    template <typename ValueType>
+    inline void swap(const deque<ValueType>& deque_one, const deque<ValueType>& deque_two)
+    {
+        deque_one.swap(deque_two);
+    }
+
 }
 
 #endif /* MY_DEQUE_H */
